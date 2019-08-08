@@ -5,3 +5,6 @@
 * www.lowrisc.org
 * https://carrv.github.io/
 * http://eliaskousk.teamdac.com/entry/welcome
+* https://www.imperialviolet.org/
+* https://git.tiband.de/band/tinyfinger
+* https://pulp-platform.org/projectinfo.html
