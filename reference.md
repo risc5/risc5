@@ -8,3 +8,5 @@
 * https://www.imperialviolet.org/
 * https://git.tiband.de/band/tinyfinger
 * https://pulp-platform.org/projectinfo.html
+* https://www.semi.org/en
+* www.semiengineering.com
