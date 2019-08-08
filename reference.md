@@ -10,3 +10,5 @@
 * https://pulp-platform.org/projectinfo.html
 * https://www.semi.org/en
 * www.semiengineering.com
+* https://abopen.com
+* http://www.prweb.com/
