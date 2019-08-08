@@ -12,3 +12,4 @@
 * www.semiengineering.com
 * https://abopen.com
 * http://www.prweb.com/
+* https://open-isa.cn/
