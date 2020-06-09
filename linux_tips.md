@@ -1,4 +1,5 @@
 ## Note Is More Power Than Memory 
+>> We need to clear our memory at intervals. Donot remember it 
 
 * find ./ -perm /+x -type f 
 
