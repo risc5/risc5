@@ -26,6 +26,8 @@ ls *.so | xargs -i cp {} ./tmp/
 
 * Open the current dir
 
+  ~~~shell
 
-       alias opwd='nautilus `pwd`'
+         alias opwd='nautilus `pwd`'
 
+  ~~~
