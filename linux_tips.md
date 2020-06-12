@@ -1,7 +1,7 @@
 ## Note Is More Power Than Memory 
 > We need to clear our memory at intervals. Donot remember it 
 
-* find ./ -perm /+x -type f 
+- find ./ -perm /+x -type f 
 
 1 2 4 more difficutly to remember
 
@@ -11,28 +11,28 @@
 
 4 ----<>r 
 
+- 查找并删除*.so文件
 
-* 查找并删除*.so文件
+  ```shell
+  find . -name "*.so" | xargs rm
+  ```
 
-  ~~~shell
-find . -name "*.so" | xargs rm
-  ~~~
+- 查找并拷贝*.so文件
 
-* 查找并拷贝*.so文件
+  ```shell
+  find . -name "*.so" | xargs -i cp {} ./tmp/
+  ```
 
-  ~~~shell
-find . -name "*.so" | xargs -i cp {} ./tmp/
-  ~~~
-* 拷贝当前目录下所有*.so文件到./tmp/下
+- 拷贝当前目录下所有*.so文件到./tmp/下
 
-  ~~~shell
-ls *.so | xargs -i cp {} ./tmp/
-  ~~~
+  ```shell
+  ls *.so | xargs -i cp {} ./tmp/
+  ```
 
-* Open the current dir
+- Open the current dir
 
-  ~~~shell
-
+  ```shell
          alias opwd='nautilus `pwd`'
+  
+  ```
 
-  ~~~
