@@ -22,3 +22,8 @@ find . -name "*.so" | xargs -i cp {} ./tmp/
 * 拷贝当前目录下所有*.so文件到./tmp/下
 
 ls *.so | xargs -i cp {} ./tmp/
+
+
+* Open the current dir
+
+ alias opwd='nautilus `pwd`'
