@@ -36,3 +36,9 @@
   
   ```
 
+- To check hex in vim 
+
+  ```shell
+        :%!xxd
+  
+  ```
