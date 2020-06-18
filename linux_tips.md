@@ -42,3 +42,10 @@
         :%!xxd
   
   ```
+
+- To find size more than 1G
+
+  ```shell
+        find . -size +1G
+  
+  ```
