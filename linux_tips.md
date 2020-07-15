@@ -49,3 +49,12 @@
         find . -size +1G
   
   ```
+  
+  - To find file and vim open it with 3 ways
+
+  ```shell
+        find -name somefile.txt -exec vim {} \;
+        find -name somefile.txt;vim `-1`
+        vim `find -name somefile.txt`
+  
+  ```
