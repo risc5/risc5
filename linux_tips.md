@@ -58,3 +58,17 @@
         vim `find -name somefile.txt`
   
   ```
+
+- allocate swap file
+
+  ```shell
+        sudo fallocate -l 8G swapfile
+sudo chmod 600 swapfile
+sudo mkswap swapfile
+sudo swapon swapfile
+
+sudo vim /etc/fstab
+/root/swapfile                                none            swap    sw              0       0
+
+  
+  ```
