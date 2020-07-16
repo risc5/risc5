@@ -49,8 +49,8 @@
         find . -size +1G
   
   ```
-  
-  - To find file and vim open it with 3 ways
+ 
+- To find file and vim open it with 3 ways
 
   ```shell
         find -name somefile.txt -exec vim {} \;
@@ -73,7 +73,7 @@
   
   ```
 
-  - To cp file with progress
+- To cp file with progress
 
   ```shell
         
