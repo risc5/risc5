@@ -72,3 +72,12 @@
 
   
   ```
+
+  - To cp file with progress
+
+  ```shell
+        
+        
+        gcp file1 file2
+  
+  ```
