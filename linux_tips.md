@@ -81,3 +81,18 @@
         gcp file1 file2
   
   ```
+
+- vim share clipboard with system 
+
+  ```shell
+        
+        
+        let mapleader = ";" 
+        noremap <Leader>y "*y 
+        noremap <Leader>p "*p 
+        noremap <Leader>Y "+y 
+        noremap <Leader>P "+p 
+        :set backspace=indent,eol,start
+  
+  ```
+  
