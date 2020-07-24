@@ -39,10 +39,20 @@
 - To check hex in vim 
 
   ```shell
+        #% is the whole file 
         :%!xxd
+        
   
   ```
+- To del the whole file content in vim 
 
+  ```shell
+        #% is the whole file 
+        :%d
+        
+  
+  ```
+  
 - To find size more than 1G
 
   ```shell
