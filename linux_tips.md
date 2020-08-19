@@ -106,7 +106,7 @@
   
   ```
   
-  - Iphone share hotspot with usb on ubuntu platform
+- Iphone share hotspot with usb on ubuntu platform
 
   ```shell
         
