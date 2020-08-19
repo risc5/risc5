@@ -106,3 +106,11 @@
   
   ```
   
+  - Iphone share hotspot with usb on ubuntu platform
+
+  ```shell
+        
+        
+        sudo apt install ipheth-utils libimobiledevice-dev libimobiledevice-utils
+  
+  ```
