@@ -48,3 +48,6 @@ Add the following line to auto start Shadosocks service at boot:
 /usr/bin/python /usr/local/bin/ssserver -c /etc/shadowsocks.json -d start
 
 sudo shutdown -r now
+
+
+https://thetowerinfo.com/setup-shadowsocks-server/
