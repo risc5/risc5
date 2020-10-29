@@ -51,3 +51,7 @@ sudo shutdown -r now
 
 
 https://thetowerinfo.com/setup-shadowsocks-server/
+
+sudo apt update
+sudo apt install snapd
+sudo snap install outline --edge
