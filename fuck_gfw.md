@@ -55,3 +55,6 @@ https://thetowerinfo.com/setup-shadowsocks-server/
 sudo apt update
 sudo apt install snapd
 sudo snap install outline --edge
+
+
+https://codediary.net/posts/how-to-setup-an-outline-vpn-server-on-ubuntu/
