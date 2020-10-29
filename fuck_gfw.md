@@ -58,3 +58,5 @@ sudo snap install outline --edge
 
 
 https://codediary.net/posts/how-to-setup-an-outline-vpn-server-on-ubuntu/
+
+https://thetowerinfo.com/use-shadowsocks-step-by-step/
