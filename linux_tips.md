@@ -124,3 +124,13 @@
         
         cp file1 file2 | progress $!
   ```
+  
+  - resize the disk volume
+
+  ```shell
+        
+        
+  resize2fs -f /dev/mmcblk1p8
+  
+  ```
+
