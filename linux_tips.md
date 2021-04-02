@@ -114,3 +114,13 @@
         sudo apt install ipheth-utils libimobiledevice-dev libimobiledevice-utils
   
   ```
+  
+- Show Progress of the job,like tar,cp,mv etc
+
+  ```shell
+        
+        
+        sudo apt install progress
+        
+        cp file1 file2 | progress $!
+  ```
