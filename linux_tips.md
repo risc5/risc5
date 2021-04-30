@@ -134,3 +134,10 @@
   
   ```
 
+  ```shell
+        
+   # 2>&1来将标准错误信息重定向out文件
+  ./get_disk_nohup.sh  >>nohup_nvme0_`date  +%Y%m%d.%H%M`.out 2>&1
+  
+  ```
+
