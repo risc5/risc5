@@ -140,4 +140,14 @@
   ./get_disk_nohup.sh  >>nohup_nvme0_`date  +%Y%m%d.%H%M`.out 2>&1
   
   ```
+    
+- Install shadowsocks
+
+  ```shell
+        
+        
+  sudo apt-get install shadowsocks-libev
+  ss-local -v -c ss.json
+  
+  ```
 
