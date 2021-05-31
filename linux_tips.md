@@ -150,4 +150,11 @@
   ss-local -v -c ss.json
   
   ```
+- How to install nginx
+  ```shell
 
+sudo apt install nginx -y
+mkdir -p /var/www/html
+sudo vim /etc/nginx/sites-available/default
+sudo nginx -s reload
+  ```shell
