@@ -150,6 +150,14 @@
   ss-local -v -c ss.json
   
   ```
+  
+- Add user to root
+
+  ```shell
+        
+        
+  usermod -aG sudo username 
+  
 - How to install nginx
   ```shell
 
@@ -158,3 +166,6 @@ mkdir -p /var/www/html
 sudo vim /etc/nginx/sites-available/default
 sudo nginx -s reload
   ```shell
+  
+  
+    
