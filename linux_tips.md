@@ -167,5 +167,10 @@ sudo vim /etc/nginx/sites-available/default
 sudo nginx -s reload
   ```shell
   
-  
+- Git archive
+  ```shell
+
+git archive --format=zip --output master.zip master
+
+  ```shell
     
