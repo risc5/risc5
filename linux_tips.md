@@ -174,3 +174,5 @@ git archive --format=zip --output master.zip master
 
   ```shell
     
+brew install shadowsocks-libev
+brew services restart shadowsocks-libev
