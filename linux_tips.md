@@ -176,3 +176,8 @@ git archive --format=zip --output master.zip master
     
 brew install shadowsocks-libev
 brew services restart shadowsocks-libev
+
+- sed replace text
+'''shell
+sed -i 's/text/replace/' file
+'''shell
