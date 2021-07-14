@@ -177,7 +177,7 @@
   ```shell
   git archive --format=zip --output master.zip master
   
-  ```shell
+  ```
 
 - Install ss  
 
@@ -195,6 +195,6 @@
 
 - How long time process live
 
-  ```
+  ```shell
   ps -eo pid,lstart,etime | grep 2001
   ```
