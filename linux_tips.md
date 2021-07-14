@@ -162,13 +162,13 @@
 
   ```shell
 
-sudo apt install nginx -y
+  sudo apt install nginx -y
 
-mkdir -p /var/www/html
+  mkdir -p /var/www/html
 
-sudo vim /etc/nginx/sites-available/default
+  sudo vim /etc/nginx/sites-available/default
 
-sudo nginx -s reload
+  sudo nginx -s reload
 
 ```shell
   
@@ -179,16 +179,16 @@ git archive --format=zip --output master.zip master
 
   ```shell
     
-brew install shadowsocks-libev
-brew services restart shadowsocks-libev
+  brew install shadowsocks-libev
+  brew services restart shadowsocks-libev
 
 - sed replace text
 '''shell
-sed -i 's/text/replace/' file
+  sed -i 's/text/replace/' file
 '''shell
 
 - How long time process live
 ```shell
 
-ps -eo pid,lstart,etime | grep 2001
+  ps -eo pid,lstart,etime | grep 2001
 ```
