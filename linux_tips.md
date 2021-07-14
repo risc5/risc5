@@ -175,22 +175,26 @@
 - Git archive
 
   ```shell
-
-git archive --format=zip --output master.zip master
-
+  git archive --format=zip --output master.zip master
+  
   ```shell
-    
+
+- Install ss  
+
+```shell
   brew install shadowsocks-libev
   brew services restart shadowsocks-libev
+```
 
 - sed replace text
 
-'''shell
-  sed -i 's/text/replace/' file
-'''shell
+  ```shell
+  	sed -i 's/text/replace/' file
+  
+  ```
 
 - How long time process live
-```shell
 
+  ```
   ps -eo pid,lstart,etime | grep 2001
-```
+  ```
