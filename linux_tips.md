@@ -181,3 +181,9 @@ brew services restart shadowsocks-libev
 '''shell
 sed -i 's/text/replace/' file
 '''shell
+
+- How long time process live
+```shell
+
+ps -eo pid,lstart,etime | grep 2001
+```
