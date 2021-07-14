@@ -173,6 +173,7 @@
 ```shell
   
 - Git archive
+
   ```shell
 
 git archive --format=zip --output master.zip master
@@ -183,6 +184,7 @@ git archive --format=zip --output master.zip master
   brew services restart shadowsocks-libev
 
 - sed replace text
+
 '''shell
   sed -i 's/text/replace/' file
 '''shell
