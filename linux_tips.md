@@ -198,3 +198,11 @@
   ```shell
   ps -eo pid,lstart,etime | grep 2001
   ```
+
+- vim cheate sheet 
+
+  ```shell
+  #delete the word under cursor
+  diw
+  https://vim.rtorr.com/
+  ```
