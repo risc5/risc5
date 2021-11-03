@@ -206,3 +206,7 @@
   diw
   https://vim.rtorr.com/
   ```
+
+
+ sudo blkid
+ 
