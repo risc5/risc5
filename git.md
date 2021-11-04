@@ -24,5 +24,8 @@ git checkout master
 git merge upstream/master
 
 
+* Git diff say "no newline at end of file"
+git add -p 
+
 ref:
 https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork
