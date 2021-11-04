@@ -6,9 +6,12 @@ https://gissue.github.io/
 git rebase
 
 git remote -v
-> origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-> origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+
+ origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
+ origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
 Specify a new remote upstream repository that will be synced with the fork.
+
+
 $ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
 
 git fetch upstream
