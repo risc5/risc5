@@ -33,6 +33,7 @@
 
   ```shell
          alias opwd='nautilus `pwd`'
+         
   
   ```
 
@@ -217,3 +218,8 @@
   ```
 
 
+- check memory chip info
+
+  ```shell
+   sudo dmidecode -t memory
+  ```
