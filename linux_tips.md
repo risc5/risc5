@@ -208,5 +208,12 @@
   ```
 
 
- sudo blkid
+
  
+ - uudi 
+
+  ```shell
+   sudo blkid
+  ```
+
+
