@@ -222,4 +222,5 @@
 
   ```shell
    sudo dmidecode -t memory
+   # Desktop Management Interface
   ```
