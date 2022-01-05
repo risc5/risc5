@@ -191,6 +191,9 @@
 
   ```shell
   	sed -i 's/text/replace/' file
+    
+    # all file
+    find ./ -type f -exec sed -i -e 's/0.875/0.2/g' {} \; 
   
   ```
 
