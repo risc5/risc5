@@ -18,7 +18,7 @@ $ git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.
 
 git fetch upstream
 
-# checkout to local master branch
+#checkout to local master branch
  
 git checkout master
 
