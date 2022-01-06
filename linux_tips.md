@@ -194,6 +194,12 @@
     
     # all file
     find ./ -type f -exec sed -i -e 's/0.875/0.2/g' {} \; 
+    
+    # for mac
+    export LC_CTYPE=C 
+    export LANG=C
+    https://stackoverflow.com/questions/19242275/re-error-illegal-byte-sequence-on-mac-os-x/23584470#23584470
+    https://stackoverflow.com/questions/6758963/find-and-replace-with-sed-in-directory-and-sub-directories
   
   ```
 
