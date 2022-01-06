@@ -1,5 +1,8 @@
 * Clone github issues
 
+# use ssh
+git clone git@github.com:Mohism-Research/chia-docs.git 
+
 https://gissue.github.io/
 
 很多东西不用都忘记了，比如
