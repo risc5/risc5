@@ -24,6 +24,14 @@ git checkout master
 
 git merge upstream/master
 
+#commit and setup one branch
+
+git push origin new_branch
+
+> remote: Create a pull request for 'jello_cpu' on GitHub by visiting:
+> remote:      https://github.com/filecoin-performance/venus-docs/pull/new/jello_cpu
+
+
 
 * Git diff say "no newline at end of file"
 git add -p 
