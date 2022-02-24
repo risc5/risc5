@@ -229,3 +229,16 @@
    sudo dmidecode -t memory
    # Desktop Management Interface
   ```
+
+
+
+- 相对路径
+
+  ```shell
+   这样写就可以解决了
+tar -czvf /home/futong/test/logs.tar.gz /home/futong/test/logs
+改成
+tar -czvf /home/futong/test/logs.tar.gz -C /home/futong/test logs
+
+注意最后要打包的文件前面是空格
+  ```
