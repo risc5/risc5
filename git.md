@@ -42,3 +42,16 @@ git add -p
 
 ref:
 https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork
+
+
+
+* how to show chinese
+
+```shell
+git status
+
+git config --global core.quotepath false
+
+[core]
+ 12         quotepath = false
+```
