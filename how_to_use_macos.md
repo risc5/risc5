@@ -7,6 +7,8 @@ Shift+Command+i
 * How to grep file use find
 
 ```shell
+
+# xargs unterminated quote 
 find . -iname "*.md" -print0 | xargs -I{} -0 grep -i 寅申巳亥 "{}"
 
 
