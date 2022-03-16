@@ -15,10 +15,12 @@ find . -name "*.md" -print0 | xargs  -0 grep "阳干十神表"
 
 
 
-
 ```
+https://github.com/risc5/risc5/blob/master/print0.md
 
+原因其实很简单, xargs 默认是以空白字符 (空格, TAB, 换行符) 来分割记录的, 因此文件名 ./file 1.log 被解释成了两个记录 ./file 和 1.log, 不幸的是 rm 找不到这两个文件.
 
+为了解决此类问题, 让 find命令在打印出一个文件名之后接着输出一个 NULL 字符 ('') 而不是换行符, 然后再告诉 xargs 也用 NULL 字符来作为记录的分隔符. 这就是 find 的 -print0 和 xargs 的 -0 的来历吧.
 
 
 
