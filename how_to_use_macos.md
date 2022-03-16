@@ -10,7 +10,7 @@ Shift+Command+i
 find . -iname "*.md" -print0 | xargs -I{} -0 grep -i 寅申巳亥 "{}"
 
 
-
+find . -name "*.md" -print0 | xargs  -0 grep "阳干十神表"
 
 
 
