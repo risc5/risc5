@@ -70,7 +70,7 @@ Many people must have run into this problem because there is a simple solution t
 
 
 ```
-$ find . -iname "*notes*" -print0 | xargs -I{} -0 grep -i mysql "{}" 
+find . -iname "*.md" -print0 | xargs -I{} -0 grep -i mysql "{}" 
 ```
 
 and it works!
