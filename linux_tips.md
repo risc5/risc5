@@ -242,3 +242,14 @@ tar -czvf /home/futong/test/logs.tar.gz -C /home/futong/test logs
 
 注意最后要打包的文件前面是空格
   ```
+  
+ - encry
+ 
+ ~~~shell
+ 
+ tar -czf - IMG_0177.jpg | openssl enc -e -aes256 -out 2.tar.gz
+
+openssl enc -d -aes256 -in 2.tar.gz | tar xz
+
+ ~~~
+  
