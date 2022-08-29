@@ -60,3 +60,20 @@ sudo snap install outline --edge
 https://codediary.net/posts/how-to-setup-an-outline-vpn-server-on-ubuntu/
 
 https://thetowerinfo.com/use-shadowsocks-step-by-step/
+
+
+
+## New Fuck GFW
+
+* First install  outline manager then we download the manager ,it will give tips to install server on linode. Like below 
+
+~~~shell
+
+$ sudo -i
+$ curl -sS https://get.docker.com/ | sh
+$ systemctl start docker
+$ systemctl enable docker
+$ systemctl status docker
+$ wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/src/server_manager/install_scripts/install_server.sh | bash
+
+~~~shell
