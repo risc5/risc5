@@ -259,3 +259,18 @@ openssl enc -d -aes256 -in 2.tar.gz | tar xz
 * Etcher
 
   
+- Ubuntu 版本选择
+
+ ```shell
+ 
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+
+sudo update-alternatives --list python
+
+sudo update-alternatives --config python
+
+值越大优先级越大
+
+ ```
