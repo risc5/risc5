@@ -274,3 +274,17 @@ sudo update-alternatives --config python
 值越大优先级越大
 
  ```
+
+- Cpio 
+
+ ```shell
+ 
+ # 解压cpio.gz文件
+gzip -cd foo.cpio.gz | cpio -ivdu
+
+find . -depth|cpio -ov >../a.cpio
+
+cpio -ivdu < foo.cpio.gz
+
+ ```
+
