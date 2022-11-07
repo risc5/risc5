@@ -81,3 +81,5 @@ $ wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/
 Link: 
 * https://portal.shadowsocks.nz/
 * https://neverinstall.com/
+* Macbook Surge
+* Clash https://docs.cfw.lbyczf.com/
