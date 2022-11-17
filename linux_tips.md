@@ -288,3 +288,13 @@ cpio -ivdu < foo.cpio.gz
 
  ```
 
+- mount ext4 image file
+
+ ```shell
+ 
+ # 
+sudo mount -o loop rootfs.ext4 /mnt
+
+ ```
+
+
