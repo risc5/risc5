@@ -298,3 +298,12 @@ sudo mount -o loop rootfs.ext4 /mnt
  ```
 
 
+- swappiness
+
+ ```shell
+ 
+sudo vim /etc/sysctl.conf
+vm.swappiness = 20
+
+
+ ```
