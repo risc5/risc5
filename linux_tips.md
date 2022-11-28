@@ -301,7 +301,9 @@ sudo mount -o loop rootfs.ext4 /mnt
 - swappiness
 
  ```shell
- 
+# temp change
+sudo sysctl vm.swappiness=20
+
 sudo vim /etc/sysctl.conf
 vm.swappiness = 20
 
