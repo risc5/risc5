@@ -309,3 +309,15 @@ vm.swappiness = 20
 
 
  ```
+ 
+ 
+ -  Error redirect
+
+
+ ```shell
+cat 1.txt 2.txt 2>/dev/null
+
+
+ ```shell
+ 
+
