@@ -78,6 +78,10 @@ $ wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/
 ~~~
 
 
+## ClashX
+Ubuntu軟件沒有系統代理，代理端口即是general-->port這個端口
+
+
 Link: 
 * https://portal.shadowsocks.nz/
 * https://neverinstall.com/
