@@ -1,3 +1,5 @@
+macbook  terminal tab title name shortcut key Command + i 
+
 * macos change terminal tag name shortcut
 
 ```shell 
