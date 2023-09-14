@@ -1,4 +1,12 @@
-macbook  terminal tab title name shortcut key Command + i 
+* macbook  terminal next tab and provious tab  
+
+  ~~~
+  next  control+ ⇥ tab
+  provious control+shift+ ⇥ tab
+  
+  ~~~
+
+  
 
 * macos change terminal tag name shortcut
 
