@@ -12,6 +12,7 @@
 
   ~~~
   zip -e file.zip file.txt
+  zip -er filefold.zip filefold
   ~~~
 
   
