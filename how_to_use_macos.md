@@ -1,3 +1,21 @@
+### Some Tips For Macos
+
+> Author: Jello Huang
+
+
+
+
+
+
+
+* zip and encrypt  file
+
+  ~~~
+  zip -e file.zip file.txt
+  ~~~
+
+  
+
 * macbook  terminal next tab and provious tab  
 
   ~~~
@@ -39,7 +57,7 @@ https://github.com/risc5/risc5/blob/master/print0.md
 
 
 
-# Howto Make Find Xargs Grep Robust to Spaces in Filenames on a Mac
+##### Howto Make Find Xargs Grep Robust to Spaces in Filenames on a Mac
 
 JUN 24TH, 2012
 
