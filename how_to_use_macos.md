@@ -4,7 +4,13 @@
 
 
 
+* Check macbook cpu temperature
 
+  ~~~
+  sudo powermetrics|grep temp
+  ~~~
+
+  
 
 
 
