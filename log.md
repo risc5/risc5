@@ -44,5 +44,23 @@ sysctl -p
 
 * wget  https://go.dev/dl/go1.21.6.linux-amd64.tar.gz
 
-  
+*  rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.6.linux-amd64.tar.gz
+
+* export PATH=$PATH:/usr/local/go/bin  
+##### systemctl
+
+
+系统启动时，自动启动
+* systemctl enable frpc.service 
+~~~shell
+
+Restart=always 只要不是通过systemctl stop来停止服务，任何情况下都必须要重启服务，默认值为no
+
+RestartSec=20 重启间隔，比如某次异常后，等待20(s)再进行启动，默认值0.1(s)
+
+StartLimitInterval=0 无限次重启，默认是10秒内如果重启超过5次则不再重启，设置为0表示不限次数重启
+
+~~~
+
+
 
