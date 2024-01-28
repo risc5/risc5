@@ -77,6 +77,25 @@ $ systemctl status docker
 $ wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/src/server_manager/install_scripts/install_server.sh | bash
 ~~~
 
+* Install outline-cli
+
+you can use the following command to build the CLI.
+
+~~~shell
+git clone https://github.com/Jigsaw-Code/outline-sdk.git
+cd outline-sdk/x/examples/
+
+# with static option may cause compile problem
+
+#go build -o outline-cli  -ldflags="-extldflags=-static" ./outline-cli
+
+go build -o outline-cli  ./outline-cli
+
+sudo ./outline-cli -transport "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5"
+
+~~~
+💡 cgo will pull in the C runtime. By default, the C runtime is linked as a dynamic library. Sometimes this can cause problems when running the binary on different versions or distributions of Linux. To avoid this, we have added the -ldflags="-extldflags=-static" option. But if you only need to run the binary on the same machine, you can omit this option.
+
 
 ## ClashX
 Ubuntu軟件沒有系統代理，代理端口即是general-->port這個端口
