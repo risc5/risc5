@@ -1,6 +1,6 @@
-# 记录一些常识性的问题
+# 常识性问题
 
-##### 电信、移动等公网IP设置
+### 电信移动公网IP设置
 
 * 中国联通超级管理员 账户与密码（福建地区）： CUAdmin
 
@@ -20,7 +20,7 @@
 
 
 
-##### Enable ubuntu 22.04 ipv6
+### Enable ubuntu 22.04 ipv6
 
 ~~~shell
 
@@ -38,7 +38,7 @@ sysctl -p
 
 
 
-##### Install go
+### Install go
 
 * Go to https://go.dev/dl/
 
@@ -47,7 +47,10 @@ sysctl -p
 *  rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.6.linux-amd64.tar.gz
 
 * export PATH=$PATH:/usr/local/go/bin  
-##### systemctl
+
+
+
+### systemctl
 
 
 系统启动时，自动启动
@@ -61,6 +64,28 @@ RestartSec=20 重启间隔，比如某次异常后，等待20(s)再进行启动�
 StartLimitInterval=0 无限次重启，默认是10秒内如果重启超过5次则不再重启，设置为0表示不限次数重启
 
 ~~~
+
+
+
+### Install rust
+
+* Todo
+
+
+
+### Saltstack vs Ansible
+
+
+
+* Todo
+
+
+
+### Prometheus & Grafana
+
+
+
+* Todo
 
 
 
