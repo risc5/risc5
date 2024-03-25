@@ -60,7 +60,7 @@
         find . -size +1G
   
   ```
- 
+
 - To find file and vim open it with 3 ways
 
   ```shell
@@ -141,7 +141,7 @@
   ./get_disk_nohup.sh  >>nohup_nvme0_`date  +%Y%m%d.%H%M`.out 2>&1
   
   ```
-    
+  
 - Install shadowsocks
 
   ```shell
@@ -158,6 +158,7 @@
         
         
   usermod -aG sudo username 
+  ```
   
 - How to install nginx
 
@@ -170,6 +171,7 @@
   sudo vim /etc/nginx/sites-available/default
 
   sudo nginx -s reload
+  ```
 
 ```shell
   
@@ -178,7 +180,7 @@
   ```shell
   git archive --format=zip --output master.zip master
   
-  ```
+```
 
 - Install ss  
 
@@ -215,7 +217,7 @@
 
 
 
- 
+
  - uudi 
 
   ```shell
@@ -236,9 +238,10 @@
 
   ```shell
    这样写就可以解决了
-tar -czvf /home/futong/test/logs.tar.gz /home/futong/test/logs
-改成
-tar -czvf /home/futong/test/logs.tar.gz -C /home/futong/test logs
+  tar -czvf /home/futong/test/logs.tar.gz /home/futong/test/logs
+  改成
+  tar -czvf /home/futong/test/logs.tar.gz -C /home/futong/test logs
+  ```
 
 注意最后要打包的文件前面是空格
   ```
@@ -251,8 +254,8 @@ tar -czvf /home/futong/test/logs.tar.gz -C /home/futong/test logs
 
 openssl enc -d -aes256 -in 2.tar.gz | tar xz
 
- ```
- 
+  ```
+
 - 烧写工具
 
 * Win32 Disk Imager  
@@ -309,8 +312,8 @@ vm.swappiness = 20
 
 
  ```
- 
- 
+
+
  -  Error redirect
 
 
@@ -321,3 +324,57 @@ cat 1.txt 2.txt 2>/dev/null
  ```shell
  
 
+
+ ```
+
+* Some cmd
+
+~~~
+NetworkManager cli
+
+networking 可以简写为 n、ne、net、netw…… 所以以上命令可以简写为：
+nmcli n
+
+DMI是英文单词Desktop Management Interface的缩写，也就是桌面管理界面，它含有关于系统硬件的配置信息
+sudo dmidecode -t 2
+
+sudo dmidecode -t baseboard
+上面2种是一样的
+
+sudo dmidecode -t --help
+Invalid type keyword: --help
+Valid type keywords are:
+  bios
+  system
+  baseboard
+  chassis
+  processor
+  memory
+  cache
+  connector
+  slot
+
+
+lspci to check ether device
+
+lspci | grep 'network|ethernet'
+
+~~~
+
+
+
+
+
+
+
+* open files limit
+
+  ~~~shell
+  ulimit -a
+  ulimit -n 1048576
+  
+  
+  
+  ~~~
+
+  
