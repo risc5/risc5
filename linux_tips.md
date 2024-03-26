@@ -463,3 +463,19 @@ http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
   ~~~
 
   
+
+* 列出相應的進程名字
+
+  ~~~shell
+  
+  pgrep -a python3
+  
+  pgrep -fa python3
+  
+  pgrep和pkill命令某种程度上可以理解成 ps aux|grep [pattern] 的别名。
+  
+  
+  ~~~
+
+  
+
