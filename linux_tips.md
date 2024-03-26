@@ -378,3 +378,76 @@ lspci | grep 'network|ethernet'
   ~~~
 
   
+
+* lsof
+
+~~~shell
+
+lsof是系统管理/安全的尤伯工具。我大多数时候用它来从系统获得与网络连接相关的信息，但那只是这个强大而又鲜为人知的应用的第一步。将这个工具称之为lsof真实名副其实，因为它是指“列出打开文件（lists openfiles）”。而有一点要切记，在Unix中一切（包括网络套接口）都是文件。
+
+https://linux.cn/article-4099-1.html
+
+
+对于我，lsof替代了netstat和ps的全部工作。它可以带来那些工具所能带来的一切，而且要比那些工具多得多。那么，让我们来看看它的一些基本能力吧：
+
+~~~
+
+
+
+
+
+*  set  timezone 
+
+  ~~~shell
+  #ubuntu 
+  dpkg-reconfigure tzdata
+  
+  ~~~
+
+  
+
+
+
+* open files limit
+
+
+
+~~~shell
+
+prlimit
+ulimit -a
+#temp set
+ulimit -n 99999
+vim /etc/security/limits.conf 
+
+
+
+* soft nproc 1048576
+* hard nproc 1048576
+* soft nofile 1048576
+* hard nofile 1048576
+root soft nproc 1048576
+root hard nproc 1048576
+root soft nofile 1048576
+root hard nofile 1048576
+
+#本地terminal 打開時候受這個影響
+vim /etc/systemd/user.conf
+
+DefaultLimitNOFILE=1048576
+
+
+
+vim  /etc/sysctl.conf 
+
+fs.file-max=1048576
+vm.max_map_count=1048576
+
+
+
+
+http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
+~~~
+
+
+
