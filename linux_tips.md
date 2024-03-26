@@ -451,3 +451,15 @@ http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
 
 
 
+* terminal prompt name
+
+  ~~~
+  vim ~/.bashrc
+  
+  export PS1='[\u@\h \w]$ '
+  其中，\u 表示当前用户名   \h 表示当前主机名（hostname） \w 表示当前路径
+  
+  export PS1='[\u@jello \w]$ '
+  ~~~
+
+  
