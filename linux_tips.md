@@ -497,3 +497,11 @@ http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
 
 ~~~
 
+
+* pip install version
+
+~~~shell
+pip install ccxt==1.2.2
+pip  show ccxt
+
+~~~
