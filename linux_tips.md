@@ -505,3 +505,15 @@ pip install ccxt==1.2.2
 pip  show ccxt
 
 ~~~
+
+* install ubuntu security update
+
+  ~~~shell
+  
+  apt-get install unattended-upgrades 
+  
+  #update all 
+  apt-get upgrade
+  ~~~
+
+  
