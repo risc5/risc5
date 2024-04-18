@@ -112,5 +112,37 @@ find . -iname "*.md" -print0 | xargs -I{} -0 grep -i mysql "{}"
 neofetch
 ```
 
-
 and it works!
+
+
+
+##### 上面都太难记忆了
+
+~~~shell
+
+find . -name "*.md" -exec grep -Hn "甲乙" {} \;
+
+~~~
+
+
+
+- `-exec`: 此选项指示 `find` 为每个找到的文件执行命令。
+- `grep`: 此命令用于搜索文件中是否存在字符串 "hello world"。
+- `-H`: 此选项指示 `grep` 打印文件名以及匹配的行。
+- `-n`: 此选项指示 `grep` 打印匹配行所在的行的行号。
+- `{}`: 此占位符将替换为正在处理的文件的实际文件名。
+- `\;`: 此字符是 `-exec` 命令的终止符。
+
+
+
+
+
+~~~shell
+
+find . -name "*.md" -exec grep -l "hello world" {} \;
+
+
+
+~~~
+
+`-l` 参数表示只输出包含匹配字符串的文件名，而不显示匹配的具体行内容。

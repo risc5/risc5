@@ -327,7 +327,7 @@ cat 1.txt 2.txt 2>/dev/null
 
  ```
 
-* Some cmd
+* Some cmd and hardware info
 
 ~~~
 NetworkManager cli
@@ -504,6 +504,7 @@ http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
 pip install ccxt==1.2.2
 pip  show ccxt
 
+
 ~~~
 
 * install ubuntu security update
@@ -517,3 +518,19 @@ pip  show ccxt
   ~~~
 
   
+
+* 查询网站相关信息
+
+  ~~~shell
+  
+  dig api.push.apple.com
+  
+  查询各种DNS记录的信息，包括主机地址，邮件交换和域名服务器
+  dig命令是常用的域名查询工具，可以用于检查域名系统是否正常工作。可以查询DNS的NS、A、cname、mx等相关的信息记录。
+  ~~~
+
+ 
+
+　rsync -avP bigfolder/ /path/to/backup 
+sudo rsync -axPS /var/lib/docker/ /path/to/new/docker-data
+journalctl -xeu docker.service
