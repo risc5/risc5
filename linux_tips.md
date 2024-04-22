@@ -474,7 +474,15 @@ http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
   
   pgrep和pkill命令某种程度上可以理解成 ps aux|grep [pattern] 的别名。
   
+  pgrep 和 pkill 结合使用
+查找并结束指定名称的进程：
+
+pkill -f "process_pattern"
+-f 参数允许模糊匹配进程名或命令行参数。
   
+ pkill  -x program_name 结束掉 进程名为 program_name 的进程，x参数启用精确匹配
+
+總之使用好x與f參賽
   ~~~
 
   
@@ -534,3 +542,26 @@ pip  show ccxt
 　rsync -avP bigfolder/ /path/to/backup 
 sudo rsync -axPS /var/lib/docker/ /path/to/new/docker-data
 journalctl -xeu docker.service
+
+
+
+Ubuntu中的systemctl是英文单词system control的缩写，意思是系统控制。
+
+Systemd是System and Service Manager的缩写，是Linux系统中一种新的init系统，用于管理系统的启动和运行。Systemd取代了传统的init系统，例如System V init和Upstart。
+
+Systemd使用unit文件来描述系统服务，而systemctl命令用于管理这些unit文件。systemctl命令可以用来启动、停止、重启、禁用、启用和检查服务状态。
+
+因此，systemctl命令是systemd的一部分，用于管理systemd服务。
+
+以下是systemctl命令的一些常见用法：
+
+systemctl start <unit>：启动指定的unit
+systemctl stop <unit>：停止指定的unit
+systemctl restart <unit>：重启指定的unit
+systemctl disable <unit>：禁用指定的unit
+systemctl enable <unit>：启用指定的unit
+systemctl status <unit>：检查指定的unit状态
+例如，要启动名为httpd的服务，可以使用以下命令：
+
+systemctl start httpd
+要检查httpd服务的状态，可以使用以下命令：
