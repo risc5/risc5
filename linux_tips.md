@@ -543,7 +543,8 @@ pip  show ccxt
 sudo rsync -axPS /var/lib/docker/ /path/to/new/docker-data
 journalctl -xeu docker.service
 
-
+注意要加反斜杆
+rsync -avh empyt/ mw1/ --delete
 
 Ubuntu中的systemctl是英文单词system control的缩写，意思是系统控制。
 
@@ -565,3 +566,24 @@ systemctl status <unit>：检查指定的unit状态
 
 systemctl start httpd
 要检查httpd服务的状态，可以使用以下命令：
+
+
+
+* 取得本机公网ip
+
+~~~shell
+
+curl ifconfig.me
+
+~~~
+
+
+* 取得相关进程的绝对路径
+
+~~~shell
+
+pgrep -af python| awk '{print $1}'| xargs pwdx
+
+
+
+~~~
