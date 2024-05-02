@@ -432,6 +432,8 @@ root soft nofile 1048576
 root hard nofile 1048576
 
 #本地terminal 打開時候受這個影響
+
+cat /proc/sys/fs/inotify/max_user_instances
 vim /etc/systemd/user.conf
 
 DefaultLimitNOFILE=1048576
@@ -440,9 +442,10 @@ DefaultLimitNOFILE=1048576
 
 vim  /etc/sysctl.conf 
 
-fs.file-max=1048576
-vm.max_map_count=1048576
-
+fs.file-max=90485760
+vm.max_map_count=90485760
+fs.inotify.max_user_instances=9999
+fs.inotify.max_user_watches=524288
 
 
 
