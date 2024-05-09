@@ -55,3 +55,28 @@ git config --global core.quotepath false
 [core]
  12         quotepath = false
 ```
+
+
+
+### fatal: early EOF fatal: index-pack failed
+
+
+
+
+873
+
+First, turn off compression:
+
+git config --global core.compression 0
+Next, let's do a partial clone to truncate the amount of info coming down:
+
+git clone --depth 1 <repo_URI>
+When that works, go into the new directory and retrieve the rest of the clone:
+
+git fetch --unshallow 
+or, alternately,
+
+git fetch --depth=2147483647
+Now, do a regular pull:
+
+git pull --all
