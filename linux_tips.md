@@ -478,11 +478,12 @@ http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
   pgrep和pkill命令某种程度上可以理解成 ps aux|grep [pattern] 的别名。
   
   pgrep 和 pkill 结合使用
-查找并结束指定名称的进程：
+  查找并结束指定名称的进程：
+  ~~~
 
 pkill -f "process_pattern"
 -f 参数允许模糊匹配进程名或命令行参数。
-  
+
  pkill  -x program_name 结束掉 进程名为 program_name 的进程，x参数启用精确匹配
 
 總之使用好x與f參賽
@@ -492,7 +493,7 @@ pkill -f "process_pattern"
 
 * vim ctrl v模式
 
-~~~shell
+​~~~shell
 
 1、删除一列操作：
 
@@ -506,7 +507,7 @@ pkill -f "process_pattern"
 
    Ctrl+v，切换到切换到 VISUAL BLOCK 模式，使用j或者k，选中想要在相同位置插入相同内容的行，按下shift + i，进入插入模式，输入想需要添加的内容，然后按两下ESC键，你就会发现，选中的行，内容都神奇地加上去了，很方便吧
 
-~~~
+  ~~~
 
 
 * pip install version
@@ -590,3 +591,13 @@ pgrep -af python| awk '{print $1}'| xargs pwdx
 
 
 ~~~
+
+
+
+
+
+* Build ubuntu as MacBook os
+
+   White Sur Theme  Gnome Look Like MacOS
+
+  * https://www.youtube.com/watch?v=b3lsY9xTJzE
