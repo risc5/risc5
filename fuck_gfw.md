@@ -31,7 +31,7 @@ sudo apt-get install python-m2crypto
 sudo pip install shadowsocks
 
 	sudo nano /etc/shadowsocks.json
-
+	
 	{
 		"server":"your_server_ip",
 		"server_port":23135,
@@ -40,7 +40,7 @@ sudo pip install shadowsocks
 		"timeout":600,
 		"method":"aes-256-cfb"
 	}
-	
+
 sudo nano /etc/rc.local
 
 Add the following line to auto start Shadosocks service at boot:
@@ -83,6 +83,8 @@ you can use the following command to build the CLI.
 
 ~~~shell
 git clone https://github.com/Jigsaw-Code/outline-sdk.git
+
+#outline-cli是位于examples下面，没有界面显示的
 cd outline-sdk/x/examples/
 
 # with static option may cause compile problem

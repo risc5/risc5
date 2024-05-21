@@ -202,7 +202,7 @@ sudo prime-select nvidia
 * 找到已经安装的Nvidia包
 
 ~~~shell
-# dpkg -l|grep nvidia|grep ii
+  # dpkg -l|grep nvidia|grep ii
 ii  libnvidia-cfg1-535-server:amd64                  535.161.08-0ubuntu2.22.04.1             amd64        NVIDIA binary OpenGL/GLX configuration library
 ii  libnvidia-common-535-server                      535.161.08-0ubuntu2.22.04.1             all          Shared files used by the NVIDIA libraries
 ii  libnvidia-compute-535-server:amd64               535.161.08-0ubuntu2.22.04.1             amd64        NVIDIA libcompute package
