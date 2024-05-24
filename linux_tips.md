@@ -601,3 +601,10 @@ pgrep -af python| awk '{print $1}'| xargs pwdx
    White Sur Theme  Gnome Look Like MacOS
 
   * https://www.youtube.com/watch?v=b3lsY9xTJzE
+
+
+
+
+
+* 监控系统
+  * glances

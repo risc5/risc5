@@ -146,3 +146,20 @@ find . -name "*.md" -exec grep -l "hello world" {} \;
 ~~~
 
 `-l` 参数表示只输出包含匹配字符串的文件名，而不显示匹配的具体行内容。
+
+
+
+
+
+### 截长图 屏幕
+
+谷歌浏览器, F12打开开发者模式，使用快捷键 Ctrl+Shift+P，Mac 当中是 Command+Shift+P,输入screenshot，选full，即可以
+
+![vim cheet sheet](./images/screen/Loog_screen.png)
+
+
+
+
+
+
+
