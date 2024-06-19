@@ -608,3 +608,95 @@ pgrep -af python| awk '{print $1}'| xargs pwdx
 
 * 监控系统
   * glances
+
+
+* Auto generate ssh 
+
+
+~~~shell
+
+ssh-keygen -t rsa -b 4096 -C "hello@gmail.com" -f ./id_rsa -N "helloworld"
+ssh-keygen -t rsa -C "hello@gmail.com"  -N "" -f ./id_rsa -N "helloworld"
+~~~
+
+
+* 限制网卡速度
+
+
+
+#### 限速方案
+
+##### 简单粗暴之ethtool命令
+
+```
+以CentOS为例，系统默认自带ethtool命令，使用方法如下：
+
+(1) 查看网卡信息
+      ethtool outline-tun0
+
+(2) 使用ethtool命令把千兆网卡降为百兆网卡并关闭自协商
+    ethtool -s outline-tun0 speed 100 duplex full autoneg off
+
+(3) 恢复千兆速度并启用自协商
+    ethtool -s outline-tun0 speed 1000 duplex full autoneg on
+
+注：此命令会导致服务器outline-tun0临时断网,后自恢复，请谨慎操作。注: 此操作在ESXI虚拟机中无效
+```
+
+##### 最便捷之wondershaper
+
+```
+(1)google搜索wondershaper rpm下载对应安装包并通过rpm -ivh命令安装（不需要依赖）
+
+(2)命令格式（单位:Kbps）：
+   wondershaper 网卡名称 下载速度 上传速度
+
+(3)例如: 我限制outline-tun0网卡下载速度为15Mbit/s,上传速度为10Mbit/s
+   wondershaper outline-tun0  15000 10000
+
+(4)取消限速
+   wondershaper clear outline-tun0
+```
+
+##### 最稳妥限速之交换机端口限速
+
+```
+对此不进行赘述
+```
+
+#### 限速后测速
+
+```
+linux下限速后如何测速？
+
+下载speedtest测速脚本
+wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py && chmod +x speedtest-cli
+
+执行如下命令等待结果即可
+./speedtest-cli
+```
+
+
+
+
+
+
+
+### 保持ssh 时候terminal title不变
+
+把远程服务器.bashrc修改如下：
+
+~~~shell
+
+# If this is an xterm set the title to user@host:dir
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#    ;;
+#*)
+#    ;;
+#esac
+#
+# enable color support of ls and also add handy aliases
+~~~
+
