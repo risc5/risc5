@@ -12,7 +12,7 @@
 
 
 
-<img src="/Users/jello/github/risc5/images/vim/vim.rtorr.com_lang_zh_cn.png" style="zoom:50%;" />
+<img src="../images/vim/vim.rtorr.com_lang_zh_cn.png" style="zoom:50%;" />
 
 
 
@@ -30,7 +30,7 @@
 
 
 
-<img src="/Users/jello/github/risc5/images/vim/devhints.io_vim.png" alt="vim cheet sheet" style="zoom:50%;" />
+<img src="../images/vim/devhints.io_vim.png" alt="vim cheet sheet" style="zoom:50%;" />
 
 
 
