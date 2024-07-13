@@ -1,6 +1,16 @@
 # Vim Cheet Sheet Chinese Version
 
-> 
+
+
+
+
+
+
+
+
+<img src="../images/vim/vim_key_map.png" style="zoom:50%;" />
+
+
 
 <img src="/Users/jello/github/risc5/images/vim/vim.rtorr.com_lang_zh_cn.png" style="zoom:50%;" />
 
@@ -747,3 +757,6 @@ vim画图工具，
 |      |      |
 |      |      |
 |      |      |
+
+
+
