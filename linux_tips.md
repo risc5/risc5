@@ -158,6 +158,8 @@
         
         
   usermod -aG sudo username 
+
+  usermod -aG docker username 
   ```
   
 - How to install nginx
@@ -371,7 +373,7 @@ lspci | grep 'network|ethernet'
 
   ~~~shell
   ulimit -a
-  ulimit -n 1048576
+  ulimit -n 90485760
   
   
   
@@ -390,6 +392,9 @@ https://linux.cn/article-4099-1.html
 
 对于我，lsof替代了netstat和ps的全部工作。它可以带来那些工具所能带来的一切，而且要比那些工具多得多。那么，让我们来看看它的一些基本能力吧：
 
+sudo lsof +D /media/jello
+
+
 ~~~
 
 
@@ -401,7 +406,13 @@ https://linux.cn/article-4099-1.html
   ~~~shell
   #ubuntu 
   dpkg-reconfigure tzdata
-  
+
+  timedatectl set-timezone Europe/Amsterdam
+  timedatectl
+  ~~~
+
+
+timedatectl list-timezones
   ~~~
 
   
@@ -412,7 +423,7 @@ https://linux.cn/article-4099-1.html
 
 
 
-~~~shell
+​~~~shell
 
 prlimit
 ulimit -a
@@ -422,21 +433,21 @@ vim /etc/security/limits.conf
 
 
 
-* soft nproc 1048576
-* hard nproc 1048576
-* soft nofile 1048576
-* hard nofile 1048576
-root soft nproc 1048576
-root hard nproc 1048576
-root soft nofile 1048576
-root hard nofile 1048576
+* soft nproc 90485760
+* hard nproc 90485760
+* soft nofile 90485760
+* hard nofile 90485760
+root soft nproc 90485760
+root hard nproc 90485760
+root soft nofile 90485760
+root hard nofile 90485760
 
 #本地terminal 打開時候受這個影響
 
 cat /proc/sys/fs/inotify/max_user_instances
 vim /etc/systemd/user.conf
 
-DefaultLimitNOFILE=1048576
+DefaultLimitNOFILE=90485760
 
 
 
@@ -444,13 +455,13 @@ vim  /etc/sysctl.conf
 
 fs.file-max=90485760
 vm.max_map_count=90485760
-fs.inotify.max_user_instances=9999
-fs.inotify.max_user_watches=524288
+fs.inotify.max_user_instances=99999
+fs.inotify.max_user_watches=5524288
 
 
 
 http://www.bictor.com/2022/07/17/ubuntu-16-04-modify-open-file-limits/
-~~~
+  ~~~
 
 
 
@@ -616,7 +627,8 @@ pgrep -af python| awk '{print $1}'| xargs pwdx
 ~~~shell
 
 ssh-keygen -t rsa -b 4096 -C "hello@gmail.com" -f ./id_rsa -N "helloworld"
-ssh-keygen -t rsa -C "hello@gmail.com"  -N "" -f ./id_rsa -N "helloworld"
+ssh-keygen -t rsa -C "hello@gmail.com"  -N "" -f ./id_rsa
+ssh-keygen -t rsa  -N "" -f ~/.ssh/id_rsa
 ~~~
 
 
@@ -700,3 +712,82 @@ wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/mast
 # enable color support of ls and also add handy aliases
 ~~~
 
+
+
+
+### route
+
+ip route show table all
+
+
+
+
+
+##### system config
+
+~~~shell
+
+sudo systemctl daemon-reload
+
+sudo sysctl -p
+
+
+~~~
+
+
+
+
+
+~~~shell
+
+---
+- name: Install rsync and synchronize directory
+  #hosts: ip100
+  hosts: ionet_hosts
+  remote_user: root
+  tasks:
+    - name: Ensure rsync is installed
+      apt:
+        name: rsync
+        state: present
+
+    - name: Synchronize outline directory to /root on remote hosts
+      synchronize:
+
+        src: ./create_users.sh
+        dest: /root/
+        #src: ./io_limit/speedtest
+        #dest: /usr/bin/
+        archive: yes
+        delete: no
+~~~
+
+上面delete 选项是什么意思，如果目标主机原先就有/root/create_users.sh这个文件，那么执行上面操作会覆盖原先的么
+
+
+
+
+
+
+
+~~~shell
+#docker images
+REPOSITORY                          TAG       IMAGE ID       CREATED       SIZE
+ionetcontainers/io-worker-monitor   <none>    8cf044ec4c17   4 days ago    1.18GB
+
+上面是运行docker images的显示结果，那么我如何运行docker,当我运行docker ps命令时候可以如下显示，特别是IMAGE那一列的ionetcontainers/io-worker-monitor 这种形式
+
+#docker ps
+CONTAINER ID   IMAGE                               COMMAND                  CREATED      STATUS      PORTS     NAMES
+cd4b2790cf16   ionetcontainers/io-worker-monitor   "tail -f /dev/null"      4 days ago   Up 4 days             optimistic_
+~~~
+
+
+
+
+
+### Filesystem info
+
+
+
+  df -T
