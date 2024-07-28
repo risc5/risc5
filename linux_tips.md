@@ -163,6 +163,7 @@
   ```
   
 - How to install nginx
+see nginx_default file on repo
 
   ```shell
 
@@ -171,6 +172,9 @@
   mkdir -p /var/www/html
 
   sudo vim /etc/nginx/sites-available/default
+        location /d {
+                autoindex on; 
+        } 
 
   sudo nginx -s reload
   ```
