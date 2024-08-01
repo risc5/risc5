@@ -795,3 +795,23 @@ cd4b2790cf16   ionetcontainers/io-worker-monitor   "tail -f /dev/null"      4 da
 
 
   df -T
+
+
+##### Add outline to favourite
+
+
+sudo vim /usr/share/applications
+
+~~~shell
+
+[Desktop Entry]
+Encoding=UTF-8
+Name=Outline
+Comment=Run Outline VPN
+Exec=/home/jello/App/Outline-Client.AppImage
+Terminal=false
+Type=Application
+Icon=/home/jello/App/alien.png
+StartupNotify=false
+#StartupNotify=true
+~~~
