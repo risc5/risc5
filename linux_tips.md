@@ -841,3 +841,12 @@ https://github.com/mkubecek/vmware-host-modules/issues/54
   # /usr/bin/vmware-modconfig --console --install-all
 ~~~
 
+
+
+##### Download chrome crx
+
+~~~shell
+python3 crx-dl.py https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb -o grass.crx
+unzip grass.crx -d translate
+~~~
+
