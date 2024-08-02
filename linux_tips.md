@@ -822,3 +822,22 @@ StartupNotify=false
 
 ~/.config/autostart/
 rm /etc/systemd/system/outline_proxy_controller.service  /usr/local/sbin/OutlineProxyController
+
+
+
+
+
+
+##### Fix vmware network
+
+
+https://fluentreports.com/blog/?p=717
+https://github.com/mkubecek/vmware-host-modules/issues/54
+
+
+~~~shell
+
+  # cp /tmp/vmnet.tar /usr/lib/vmware/modules/source/vmnet.tar
+  # /usr/bin/vmware-modconfig --console --install-all
+~~~
+
