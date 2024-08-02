@@ -815,3 +815,10 @@ Icon=/home/jello/App/alien.png
 StartupNotify=false
 #StartupNotify=true
 ~~~
+
+
+
+##### Outline
+
+~/.config/autostart/
+rm /etc/systemd/system/outline_proxy_controller.service  /usr/local/sbin/OutlineProxyController
