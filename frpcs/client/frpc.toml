@@ -1,0 +1,13 @@
+# Linode server ip and port
+serverAddr = "172.232.238.144"
+serverPort = 8888
+
+[[proxies]]
+name = "ssh"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 22
+
+# 最终我们要链接的端口号
+# 类似ssh -p 6666 root@172.232.238.144
+remotePort = 6666
