@@ -169,7 +169,7 @@
   
   sudo apt install nginx -y
   
-  mkdir -p /var/www/html
+  mkdir -p /var/www/html/d
   
   sudo vim /etc/nginx/sites-available/default
         location /d {
