@@ -162,4 +162,37 @@ find . -name "*.md" -exec grep -l "hello world" {} \;
 
 
 
+### macbook 休眠问题
+
+macOS 的睡眠有两种状态
+不断电，数据存储在内存中，可以快速恢复。我们称这种状态为睡眠（Sleep）
+断电，数据存储在硬盘中，恢复得较慢。我们称这种状态为休眠（Hibernate/Stand-by）
+睡眠和休眠可以组合出三种模式，由 hibernatemode 控制
+hibernatemode = 0，这是桌面设备的默认值。系统只睡眠，不休眠，不将数据存储在硬盘中。
+hibernatemode = 3，这是移动设备的默认值。系统默认睡眠，在一定时间后或电量低于阈值将数据存储在硬盘中，而后休眠。这是所谓的安全睡眠（Safe-Sleep）。
+hibernatemode = 25。只休眠，不睡眠。
+无论是安全睡眠模式还是休眠模式，从磁盘上恢复时，都会需要一定的时间（经测试，大约 3 秒钟）屏幕才会被点亮。
+对于 hibernatemode = 3，即安全睡眠模式，又有几个参数来控制细节。
+
+当剩余电量大于 highstandbythreshold（默认 50%）时，在 standbydelayhigh 秒（默认 86,400，即一整天）后进入休眠。
+当剩余电量小于 highstandbythreshold 时，在 standbydelaylow 秒（默认 10,800，即三小时）后进入休眠
+
+
+
+~~~shell
+
+# When Using Battery
+sudo pmset -b hibernatemode 25
+sudo pmset -b highstandbythreshold 90
+sudo pmset -b standbydelayhigh 3600  # 1 hour
+sudo pmset -b standbydelaylow  300  # 5 minute
+# When Using AC Power
+sudo pmset -c hibernatemode 3
+sudo pmset -c highstandbythreshold 80
+sudo pmset -c standbydelayhigh 86400  # 24 hours
+sudo pmset -c standbydelaylow  10800  # 3 hours
+~~~
+
+
+https://liam.page/2020/07/26/change-hibernatemode-to-save-battery-on-macOS/ 
 
