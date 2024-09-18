@@ -973,3 +973,18 @@ StartLimitInterval=0 无限次重启，默认是10秒内如果重启超过5次�
 https://www.backblaze.com/blog/hard-drive-smart-stats/
 
 sudo smartctl -A /dev/sda
+
+
+
+
+
+### NetworkManager
+
+~~~
+sudo systemctl list-unit-files |grep Net
+
+sudo systemctl restart NetworkManager
+
+
+~~~
+
