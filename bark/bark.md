@@ -101,7 +101,7 @@ curl http://173.231.173.38:8080/ping
 
 
 
-<img src="/Users/jello/github/risc5/bark/images/bark_1.png" alt="image-20240916193919500" style="zoom:50%;" />
+<img src="./images/bark_1.png" alt="image-20240916193919500" style="zoom:50%;" />
 
 
 
