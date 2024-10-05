@@ -89,3 +89,14 @@ StartLimitInterval=0 无限次重启，默认是10秒内如果重启超过5次�
 
 
 
+additional_services:
+  - name: "goomy-blob"
+  - name: "tx-fuzz"
+    replicas: 16
+  - name: "prometheus"
+  - name: "grafana"
+  - name: "pyroscope"
+  - name: "blockscout"
+    client: "el-full-reth-0"
+  - name: "otterscan" # otterscan supports only erigon nodes
+    client: "el-full-erigon-3"
