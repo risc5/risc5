@@ -1,4 +1,5 @@
 sudo vim /etc/systemd/system/frpc.service
+sudo systemctl daemon-reload
 systemctl start frpc.service
 systemctl enable frpc.service
 
