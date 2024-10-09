@@ -122,6 +122,9 @@ and it works!
 
 find . -name "*.md" -exec grep -Hn "甲乙" {} \;
 
+grep -rin "甲乙" --include="*.md" .
+
+
 ~~~
 
 
@@ -181,12 +184,12 @@ hibernatemode = 25。只休眠，不睡眠。
 
 ~~~shell
 
-# When Using Battery
+ When Using Battery
 sudo pmset -b hibernatemode 25
 sudo pmset -b highstandbythreshold 90
 sudo pmset -b standbydelayhigh 3600  # 1 hour
 sudo pmset -b standbydelaylow  300  # 5 minute
-# When Using AC Power
+ When Using AC Power
 sudo pmset -c hibernatemode 3
 sudo pmset -c highstandbythreshold 80
 sudo pmset -c standbydelayhigh 86400  # 24 hours
@@ -195,4 +198,37 @@ sudo pmset -c standbydelaylow  10800  # 3 hours
 
 
 https://liam.page/2020/07/26/change-hibernatemode-to-save-battery-on-macOS/ 
+
+
+
+
+
+### Install nginx
+
+
+
+~~~shell
+
+brew install nginx
+
+
+
+Docroot is: /usr/local/var/www
+
+The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that
+nginx can run without sudo.
+
+nginx will load all files in /usr/local/etc/nginx/servers/.
+
+To start nginx now and restart at login:
+  brew services start nginx
+Or, if you don't want/need a background service you can just run:
+  /usr/local/opt/nginx/bin/nginx -g daemon\ off\;
+  
+
+~~~
+
+
+
+
 
