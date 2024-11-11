@@ -988,3 +988,17 @@ sudo systemctl restart NetworkManager
 
 ~~~
 
+
+
+
+
+
+
+### Debug GitHub ssh
+
+~~~
+ssh -vT git@github.com 
+
+
+~~~
+
