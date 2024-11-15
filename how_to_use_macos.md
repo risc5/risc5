@@ -157,6 +157,7 @@ find . -name "*.md" -exec grep -l "hello world" {} \;
 ### 截长图 屏幕
 
 谷歌浏览器, F12打开开发者模式，使用快捷键 Ctrl+Shift+P，Mac 当中是 Command+Shift+P,输入screenshot，选full，即可以
+最近在某个网站上发现，capture full size 无法截取全屏。 可能是网页设置了 body 高度为 100% 所致。去掉该属性即可正常使用
 
 ![vim cheet sheet](./images/screen/Loog_screen.png)
 
