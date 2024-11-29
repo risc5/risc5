@@ -37,3 +37,9 @@ W269N-WFGWX-YVC9B-4J6C9-T83GX
 YTMG3-N6DKC-DKB77-7M9GH-8HVX7
 
 NJ4MX-VQQ7Q-FP3DB-VDGHX-7XM87
+
+
+
+
+
+https://github.com/Aetherinox/windows-update-killer
