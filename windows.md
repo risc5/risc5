@@ -44,3 +44,7 @@ https://buzzheavier.com/dl/Ww_wSwilB8vtLWXGjHGq8yITk_WmdLKWkkvdw54CNsEY82ouUc6lW
 
 
 https://github.com/Aetherinox/windows-update-killer
+
+
+* windows-defender-remover
+https://github.com/ionuttbara/windows-defender-remover/releases
