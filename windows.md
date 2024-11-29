@@ -24,6 +24,7 @@ https://github.com/massgravel/Microsoft-Activation-Scripts
 iso 下载
 https://pan.quark.cn/s/c5ac382cc146#/list/share/1c88c39805d348d1bd0689e2ce40aff8-Windows%20LTSC%E5%90%88%E9%9B%86
 
+https://buzzheavier.com/dl/Ww_wSwilB8vtLWXGjHGq8yITk_WmdLKWkkvdw54CNsEY82ouUc6lWu9zSoQRW_9F7UCTxrURdRtk2i_XvVOdG4til1hXmNmTfvUPfcU1OV2btvkvLGXG8Nc9k8fek16N1_cDW_SJUs0rq21m3AAW_C7c2f0RuUwsh5yJoUCJnA
 
 
 #6K2KY-BFH24-PJW6W-9GK29-TMPWP
