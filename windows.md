@@ -48,3 +48,6 @@ https://github.com/Aetherinox/windows-update-killer
 
 * windows-defender-remover
 https://github.com/ionuttbara/windows-defender-remover/releases
+
+
+Ubuntu install windows iso use Woeusb-ng

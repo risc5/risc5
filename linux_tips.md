@@ -1001,4 +1001,4 @@ ssh -vT git@github.com
 
 
 ~~~
-
+Ubuntu install windows iso use Woeusb-ng
