@@ -836,3 +836,7 @@ dH                         删除直到屏幕上第一行的内容
 dG                         删除直到工作缓存区结尾的内容 
 d1G                        删除直到工作缓存区开始的内容  
 ```
+
+Use dw to delete word. Cursor placement is important! If your cursor is not on the first character, it will only delete from your cursor to the end of the word.
+Use diw to delete inside word. Deletes the entire word that your cursor resides in.
+Use dt<char> to delete to character. Deletes from your cursor to the specified character.
