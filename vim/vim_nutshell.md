@@ -840,3 +840,12 @@ d1G                        删除直到工作缓存区开始的内容
 Use dw to delete word. Cursor placement is important! If your cursor is not on the first character, it will only delete from your cursor to the end of the word.
 Use diw to delete inside word. Deletes the entire word that your cursor resides in.
 Use dt<char> to delete to character. Deletes from your cursor to the specified character.
+
+
+删除空行 :g/^$/d
+
+vim 删除每一行从 ：开始到结尾的所有字符
+:1,$s/:.*//g
+
+
+
