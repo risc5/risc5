@@ -18,29 +18,23 @@ SHA3-256 :	b07a6c07d25d34830ec188205e8d91c2beab80c7c171005f8ffafac8b81a50ea
 SHA3-512 :	6075e6e5f9703f34be9d693d6987ec6deac3643558a8f98f58f341c82399f378 3a287aef64d6032043c65c3994400e3d5909815cc90a20d2d7eb860c1544bd6c
 Size :	3.778 GB (4056678400 bytes)
 
+* Windows 激活软件
+
 https://github.com/massgravel/Microsoft-Activation-Scripts
 /0acb0766f0591fe917e00ba8eb2fbdd32a36a2345492191e0376130a45974795
 
-iso 下载
-https://pan.quark.cn/s/c5ac382cc146#/list/share/1c88c39805d348d1bd0689e2ce40aff8-Windows%20LTSC%E5%90%88%E9%9B%86
+* 企业纯净版 iso 下载
 
-https://buzzheavier.com/dl/Ww_wSwilB8vtLWXGjHGq8yITk_WmdLKWkkvdw54CNsEY82ouUc6lWu9zSoQRW_9F7UCTxrURdRtk2i_XvVOdG4til1hXmNmTfvUPfcU1OV2btvkvLGXG8Nc9k8fek16N1_cDW_SJUs0rq21m3AAW_C7c2f0RuUwsh5yJoUCJnA
+  
 
-
-#6K2KY-BFH24-PJW6W-9GK29-TMPWP
-#
-#C4M9W-WPRDG-QBB3F-VM9K8-KDQ9Y
-#
-#W269N-WFGWX-YVC9B-4J6C9-T83GX
-#
-#2B87N-8KFHP-DKV6R-Y2C8J-PKCKT
-#
-#YTMG3-N6DKC-DKB77-7M9GH-8HVX7
-#
-#NJ4MX-VQQ7Q-FP3DB-VDGHX-7XM87
-#
+  https://pan.quark.cn/s/c5ac382cc146#/list/share/1c88c39805d348d1bd0689e2ce40aff8-Windows%20LTSC%E5%90%88%E9%9B%86
+  
+  https://buzzheavier.com/dl/Ww_wSwilB8vtLWXGjHGq8yITk_WmdLKWkkvdw54CNsEY82ouUc6lWu9zSoQRW_9F7UCTxrURdRtk2i_XvVOdG4til1hXmNmTfvUPfcU1OV2btvkvLGXG8Nc9k8fek16N1_cDW_SJUs0rq21m3AAW_C7c2f0RuUwsh5yJoUCJnA
 
 
+
+
+* Windows
 
 
 https://github.com/Aetherinox/windows-update-killer
@@ -50,4 +44,5 @@ https://github.com/Aetherinox/windows-update-killer
 https://github.com/ionuttbara/windows-defender-remover/releases
 
 
-Ubuntu install windows iso use Woeusb-ng
+
+* Ubuntu install windows iso use Woeusb-ng
