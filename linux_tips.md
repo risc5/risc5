@@ -1002,3 +1002,21 @@ ssh -vT git@github.com
 
 ~~~
 Ubuntu install windows iso use Woeusb-ng
+
+
+
+
+
+### parted
+
+~~~
+sudo parted /dev/sdX
+mklabel gpt
+mkpart primary 0GB 2TB
+
+mkpart primary 2TB 100%
+
+~~~
+
+
+~~~
