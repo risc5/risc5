@@ -1020,3 +1020,19 @@ mkpart primary 2TB 100%
 
 
 ~~~
+
+~~~
+
+
+
+
+
+### nmap快速扫描主机所有端口
+
+https://www.reddit.com/r/tryhackme/comments/1alan6y/fast_way_to_scan_all_ports_using_nmap/
+
+~~~shell
+
+nmap -sS -Pn -T5 -p- proxy2.wynd.network
+~~~
+
