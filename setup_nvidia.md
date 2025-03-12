@@ -11,6 +11,10 @@ sudo vim /etc/modprobe.d/blacklist-nouveau.conf
 blacklist nouveau
 options nouveau modeset=0
 
+
+
+<span  style="color: #ff1bce; ">安装NVIDIA-Linux-x86_64-535.161.07.run这类驱动文件的时候，会有个选项创建类似上面的一个文件，里面内容是一样的</span> 
+
 ### Ubuntu-drivers介绍
 
 
@@ -77,6 +81,8 @@ Checkout driver  whether is installer
 
 * sudo nvidia-smi
 
+  
+  
   ~~~shell
   Wed May  1 20:56:23 2024       
   +---------------------------------------------------------------------------------------+
@@ -103,13 +109,13 @@ Checkout driver  whether is installer
   |    0   N/A  N/A     21202      G   gnome-control-center                          0MiB |
   +---------------------------------------------------------------------------------------+
   
-  
+
   ~~~
 
-   显示如上则代表驱动既可用于加速计算与显示，Processes部分代表显示功能。
+   显示如上则代表驱动既可用于加速计算与显示，Processes部分代表显示功能。说明显卡正常工作了
 
   
-
+  
   第一栏的Fan：N/A是风扇转速，从0到100%之间变动。有的设备不会返回转速，因为它不依赖风扇冷却而是通过其他外设保持低温。
   第二栏的Temp：是温度，单位摄氏度。
   第三栏的Perf：是性能状态，从P0到P12，P0表示最大性能，P12表示状态最小性能。
@@ -242,21 +248,143 @@ ii  xserver-xorg-video-nvidia-535-server             535.161.08-0ubuntu2.22.04.1
 
 * <span  style="color: #ff1bce; ">因为要重新安装Nvidia驱动，必须要删除干净，比如像上面由于用ubuntu 命令去安装，或则各个不同版本的ubuntu与Nvidia这个闭源的驱动存在相关不兼容性。或者说N公司对Ubuntu支持不大友好</span> 
 
-* 删除干净后，去官方直接下载个NVIDIA-Linux-x86_64-535.161.07.run ，直接安装就好了
+* <span  style="color: #ff1bce; ">删除干净后，去官方直接下载个NVIDIA-Linux-x86_64-535.161.07.run ，直接安装就好了</span> 
 
 
 
-### 相关命令
 
 
+### 禁用集成显卡
+
+Dell720 需要在 BIOS 里 **直接禁用集成显卡**，这样 Ubuntu 才能使用 NVIDIA 独立显卡。
+
+方法：
+
+1. 进入 BIOS（通常是按 `F2` 或 `Delete` 进入）
+2. 找到Int开头
+3. 选择 **Disable Integrated Graphics** 与 **4G**
+4. 保存并重启
+
+这样 Ubuntu 就不会使用集成显卡。
+
+
+
+
+
+### 切换到独立显卡
+
+
+
+<span  style="color: #ff1bce; ">安装 nvidia- 相关命令</span>,nvidia-prime 
 
 ~~~shell
-sudo lshw -numeric -C display
-journalctl -b0 |grep gdm-x-session >journal.txt
-lspci|grep -i vga
+# nvidia-prime 包含了prime-select nvidia相关命令
+sudo apt install nvidia-prime 
+sudo prime-select query
+
+
+# 使用 prime-select 切换到 NVIDIA 独显
+sudo prime-select nvidia
+sudo reboot
 
 ~~~
 
 
 
 
+
+还有一种方法是修改 Xorg（openai），也可以切换到独立显卡
+
+编辑（或新建）配置文件：/etc/X11/xorg.conf
+
+```
+bash
+
+
+CopyEdit
+sudo nano /etc/X11/xorg.conf
+```
+
+添加以下内容：
+
+```
+conf
+
+
+CopyEdit
+Section "Device"
+    Identifier "NVIDIA Card"
+    Driver "nvidia"
+    BusID "PCI:1:0:0"
+EndSection
+```
+
+其中 `BusID` 需要与你的独显对应，可以用以下命令查询：
+
+```
+bash
+
+
+CopyEdit
+lspci | grep -i nvidia
+```
+
+例如：
+
+```
+yaml
+
+
+CopyEdit
+01:00.0 VGA compatible controller: NVIDIA Corporation TU106 [GeForce RTX 2060] (rev a1)
+```
+
+则 `BusID` 应该写成：
+
+```
+conf
+
+
+CopyEdit
+BusID "PCI:1:0:0"
+```
+
+然后保存文件并重启：
+
+```
+bash
+
+
+CopyEdit
+sudo reboot
+```
+
+
+
+
+
+
+
+**其他命令**
+
+~~~shell
+
+
+
+sudo lshw -numeric -C display
+journalctl -b0 |grep gdm-x-session >journal.txt
+lspci|grep -i vga
+
+
+
+~~~
+
+
+
+
+
+### GT740
+
+安装下面文件
+
+[NVIDIA-Linux-x86_64-470.256.02.run](https://us.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run)
