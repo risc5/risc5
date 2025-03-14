@@ -54,3 +54,6 @@ bash <(curl -Ls https://cpp.li/openai)
 视频教程：
 YouTube：https://www.youtube.com/watch?v=ZEdgK4SWBEI
 
+
+
+https://github.com/XTLS/REALITY
