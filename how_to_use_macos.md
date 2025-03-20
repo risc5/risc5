@@ -242,3 +242,14 @@ Or, if you don't want/need a background service you can just run:
 | **Fedora**     | ✅                | ❌（需手动修复）            | 适合喜欢较新内核的用户             |
 | **Arch Linux** | ✅                | ❌（需自己编译 T2 驱动）    | 适合高级用户                       |
 | **Pop!_OS**    | ✅                | ❌（部分驱动需修复）        | 适合想要易用性的用户               |
+
+
+
+
+
+
+
+### 進入雙系統
+
+* 開機一直按住option按鍵 ，選擇然後進入ubuntu系統
+* command+r 進入恢復系統
