@@ -46,3 +46,4 @@ https://github.com/ionuttbara/windows-defender-remover/releases
 
 
 * Ubuntu install windows iso use Woeusb-ng
+* Windows 安装windows系统工具使用rufus
