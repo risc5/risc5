@@ -253,3 +253,18 @@ Or, if you don't want/need a background service you can just run:
 
 * 開機一直按住option按鍵 ，選擇然後進入ubuntu系統
 * command+r 進入恢復系統
+
+
+
+
+
+### Parallels 破解补丁
+
+
+
+https://macked.app/parallels-desktop-20-crack.html
+
+* 20.2.2
+  * https://download.parallels.com/desktop/v20/20.2.2-55879/ParallelsDesktop-20.2.2-55879.dmg
+  * 
+

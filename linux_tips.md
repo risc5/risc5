@@ -77,11 +77,22 @@
         sudo chmod 600 swapfile
         sudo mkswap swapfile
         sudo swapon swapfile
-
+  
         sudo vim /etc/fstab
         /root/swapfile                                none            swap    sw              0       0
-
   
+  
+  
+  
+  
+  ### btrfs
+  
+  # truncate -s 0 swapfile
+  # chattr +C swapfile
+  # fallocate -l 2G swapfile
+  # chmod 0600 swapfile
+  # mkswap swapfile
+  # swapon swapfile
   ```
 
 - To cp file with progress

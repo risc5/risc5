@@ -1,4 +1,4 @@
-# How To Install GTX 960 On Ubuntu 20.04
+## How To Install GTX 960 On Ubuntu 20.04
 
 
 
@@ -387,4 +387,94 @@ lspci|grep -i vga
 
 安装下面文件
 
-[NVIDIA-Linux-x86_64-470.256.02.run](https://us.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run)
+~~[NVIDIA-Linux-x86_64-470.256.02.run](https://us.download.nvidia.com/XFree86/Linux-x86_64/470.256.02/NVIDIA-Linux-x86_64-470.256.02.run)~~
+
+347.88-desktop-win8-win7-winvista-64bit-international-whql.exe 这个版本对于10系列之下的才是相对稳定版本
+
+
+
+
+
+
+
+### System fallback 
+
+NVIDIA 536.40 开始支持gpu使用 system ram ，shared memory  fallback机制，具体设置如下：
+
+10. You can re-enable system memory fallback at any time by coming back to this tab. Full steps:
+
+a. Open **NVIDIA Control Panel**
+
+b. Under **3D Settings**, click **Manage 3D Settings** 
+
+c. Navigate to **Program Settings** tab
+
+d. Select Stable Diffusion python executable from dropdown
+
+e. Click on **CUDA - Sysmem Fallback Policy** and select **Driver Default**.
+
+f. Click **Apply** to confirm.
+
+g. Restart Stable Diffusion if it’s already open.
+
+
+
+"WHQL Certified" Windows Hardware Quality Labs testing or WHQL 
+
+
+
+
+
+
+
+## 真正的卡顿瓶颈：**Windows 本身的系统资源限制（尤其是 GDI/USER 对象、句柄）**
+
+虽然你禁用了 GPU，内存、CPU 也没问题，但当你**开了 300 个独立 chrome.exe 进程**后，会触发以下隐藏系统限制：
+
+------
+
+### 🧨 1. **USER/GDI 对象极限**
+
+每个 Chrome 进程都会创建一些窗口（USER 对象）和绘图资源（GDI 对象），300 个进程一起跑，系统总资源压力爆炸。
+
+🛠 **请用任务管理器检查**（重点）：
+
+1. 打开任务管理器 →「详细信息」
+2. 右键标题栏 → 选择列 → 勾选 **USER 对象** 和 **GDI 对象**
+3. 看看 chrome.exe 的 USER/GDI 数字有没有接近或超过 10000
+
+📌 系统默认上限：
+
+| 对象类型  | 单进程默认上限 |
+| --------- | -------------- |
+| USER 对象 | 10,000         |
+| GDI 对象  | 10,000         |
+
+🛠 **提升 GDI/USER 限制方法**：
+
+打开注册表（`regedit`），然后增加以下项：
+
+```
+reg
+
+
+CopyEdit
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows]
+"GDIProcessHandleQuota"=dword:00004650     ; 十进制 18000
+"USERProcessHandleQuota"=dword:00004650    ; 也可以试试这个
+```
+
+然后 **重启系统生效**。
+
+------
+
+### 🧨 2. **系统总句柄数或窗口资源溢出**
+
+即使单个进程没爆，**整个系统能承受的窗口数量/句柄数**也是有限的。开到 300 个独立 GUI 程序，很容易溢出。
+
+🛠 建议使用工具：
+
+- Process Hacker
+- SysInternals 的 [`Handle.exe`](https://docs.microsoft.com/en-us/sysinternals/downloads/handle)
+
+来查看系统总句柄数量和类型（窗口、线程、句柄等）。
