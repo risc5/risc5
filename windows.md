@@ -47,3 +47,45 @@ https://github.com/ionuttbara/windows-defender-remover/releases
 
 * Ubuntu install windows iso use Woeusb-ng
 * Windows 安装windows系统工具使用rufus
+
+
+
+List of Windows 10 Product Key
+Here is a list of Windows 10 product keys. These product keys are useful for those who don't get the Windows copy.
+
+Windows 10 Product Keys List Free Download:	DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4
+ 	W269N-WFGWX-YVC9B-4J6C9-T83GX
+ 	MH37W-N47XK-V7XM9-C7227-GCQG9 没有问题
+ 	TX9XD-98N7V-6WMQ6-BX7FG-H8Q99
+ 	WNMTR-4C88C-JK8YV-HQ7T2-76DF9
+ 	W269N-WFGWX-YVC9B-4J6C9-T83GX
+List of Windows Server 2016 All Versions Product Key
+Windows Server 2016 Datacenter Key	CB7KF-BWN84-R7R2Y-793K2-8XDDG
+Windows Server 2016 Standard Key	WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY
+Windows Server 2016 Essentials Key	JCKRF-N37P4-C2D82-9YXRT-4M63B
+List of Windows 10 Product Keys for All Versions
+Windows 10 Professional Key	W269N-WFGWX-YVC9B-4J6C9-T83GX
+Windows 10 Professional N Product Key	MH37W-N47XK-V7XM9-C7227-GCQG9
+Windows 10 Enterprise Key	NPPR9-FWDCX-D2C8J-H872K-2YT43
+Windows 10 Enterprise N Key	DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4
+Windows 10 Education Key	NW6C2-QMPVW-D7KKK-3GKT6-VCFB2
+Windows 10 Home N	AKJUS-WY2CT-JWBJ2-T68TQ-YBH2V
+Windows 10 Enterprise 2015 LTSB N	JAHSU-QMPVW-D7KKK-3GKT6-VCFB2
+Windows 10 Pro for Workstations	AKSIU-WY2CT-JWBJ2-T68TQ-YBH2V
+Windows Pro N for Workstations	SJUY7-NFMTC-H88MJ-PFHPY-QJ4BJ
+Windows 10 Pro Education	AJUYS-8C467-V2W6J-TX4WX-WT2RQ
+Windows 10 Enterprise N	AJSU7-GRT3P-VKWWX-X7T3R-8B639
+Windows 10 Enterprise Key	ALSOI-MHBT6-FXBX8-QWJK7-DRR8H
+Windows 10 Enterprise S	8UY76-TNFGY-69QQF-B8YKP-D69TJ
+Windows 10 Enterprise G N	AJSUY-NPHTM-C97JM-9MPGT-3V66T
+Windows 10 Pro Education N	ALSOI-4C88C-JK8YV-HQ7T2-76DF9
+List of Windows 10 Activation Keys
+Windows Server 2016 Standard	WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY
+Windows Server 2016 Essentials	JCKRF-N37P4-C2D82-9YXRT-4M63B
+Windows 10 Professional	W269N-WFGWX-YVC9B-4J6C9-T83GX
+Windows 10 Professional N	MH37W-N47XK-V7XM9-C7227-GCQG9
+Windows 10 Enterprise	NPPR9-FWDCX-D2C8J-H872K-2YT43
+Windows 10 Enterprise N	DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4
+Windows 10 Education	NW6C2-QMPVW-D7KKK-3GKT6-VCFB2
+Windows 10 Education N	2WH4N-8QGBV-H22JP-CT43Q-MDWWJ
+
