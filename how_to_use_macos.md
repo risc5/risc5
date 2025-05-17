@@ -264,7 +264,13 @@ Or, if you don't want/need a background service you can just run:
 
 https://macked.app/parallels-desktop-20-crack.html
 
+https://luoxx.top/archives/pd20-free-share
+
 * 20.2.2
   * https://download.parallels.com/desktop/v20/20.2.2-55879/ParallelsDesktop-20.2.2-55879.dmg
   * 
 
+
+### Macos破解网站
+
+https://macked.app
