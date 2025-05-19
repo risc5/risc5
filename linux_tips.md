@@ -1047,3 +1047,16 @@ https://www.reddit.com/r/tryhackme/comments/1alan6y/fast_way_to_scan_all_ports_u
 nmap -sS -Pn -T5 -p- proxy2.wynd.network
 ~~~
 
+
+
+### rEFInd 安装到u盘
+rEFInd version refind-bin-0.14.2.zip usb版本，主页第一个就是
+
+
+sudo parted /dev/sdb
+mklabel gpt
+mkpart primary 0GB 100%
+mkfs.vfat /dev/sdb1
+
+
+./refind-install --usedefault /dev/sdb1 --alldrivers
