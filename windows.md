@@ -89,3 +89,5 @@ Windows 10 Enterprise N	DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4
 Windows 10 Education	NW6C2-QMPVW-D7KKK-3GKT6-VCFB2
 Windows 10 Education N	2WH4N-8QGBV-H22JP-CT43Q-MDWWJ
 
+google 拼音
+http://dl.google.com/pinyin/v1/GooglePinyinInstaller.exe
