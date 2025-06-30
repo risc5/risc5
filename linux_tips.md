@@ -807,8 +807,11 @@ cd4b2790cf16   ionetcontainers/io-worker-monitor   "tail -f /dev/null"      4 da
 
   df -T
 
-
 ##### Add outline to favourite
+
+
+
+把一个应用程序放到show applications里面去方便查找
 
 
 sudo vim /usr/share/applications
