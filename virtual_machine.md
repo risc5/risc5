@@ -51,6 +51,7 @@
 - 仅主机(host-only) ：虚拟机不能连外网，并且不互通
 
 
+https://floodshao.github.io/2019/07/03/2019-07-03-VirtualBox-NAT-Configuration/
 
 ###  Host operating systems
 
