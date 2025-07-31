@@ -52,6 +52,7 @@
 
 
 https://floodshao.github.io/2019/07/03/2019-07-03-VirtualBox-NAT-Configuration/
+一个非常简洁的文章
 
 ###  Host operating systems
 
