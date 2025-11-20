@@ -1055,7 +1055,6 @@ nmap -sS -Pn -T5 -p- proxy2.wynd.network
 ### rEFInd 安装到u盘
 rEFInd version refind-bin-0.14.2.zip usb版本，主页第一个就是
 
-
 sudo parted /dev/sdb
 mklabel gpt
 mkpart primary 0GB 100%
@@ -1063,3 +1062,16 @@ mkfs.vfat /dev/sdb1
 
 
 ./refind-install --usedefault /dev/sdb1 --alldrivers
+
+
+
+### Nat模式端口转发
+
+
+
+要在 NAT 模式下从主机 SSH 连接到虚拟机，您需要设置 **端口转发 (Port Forwarding)**。
+
+端口转发的原理是：
+
+1. 在虚拟机设置中，指定一个 **宿主机端口** (例如 $2222$)。
+2. 将所有发往宿主机该端口的流量，转发到虚拟机内部的 **SSH 端口** ($22$)。###
