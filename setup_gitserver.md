@@ -49,6 +49,7 @@ $ cd /srv/git
 $ mkdir project.git
 $ cd project.git
 $ git init --bare
+$ chown -R git:git project.git
 Initialized empty Git repository in /srv/git/project.git/
 
 
