@@ -45,6 +45,7 @@
         
   
   ```
+  
 - To del the whole file content in vim 
 
   ```shell
@@ -176,6 +177,78 @@
 - How to install nginx
   see nginx_default file on repo
 
+  ~~~
+  
+  ##
+  # Nginx 配置文件 - 已添加 /nhx 外部目录映射
+  ##
+  
+  server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+  
+      # 默认网页根目录
+      root /var/www/html;
+  
+      # 默认首页文件
+      index index.html index.htm index.nginx-debian.html;
+  
+      server_name _;
+  
+      # 1. 默认根路径处理
+      location / {
+          try_files $uri $uri/ =404;
+      }
+  
+      # 2. 您原有的 /d 路径配置
+      location /d {
+          autoindex on;
+      }
+  
+      # 3. 新增：映射外部硬盘目录 /nhx
+      # 访问地址：http://你的IP/nhx
+      location /nhx {
+          # 使用 alias 映射到绝对路径，注意末尾的斜杠
+          alias /media/jello/4878e04e/nhx/;
+          
+          # 开启目录浏览功能
+          autoindex on;
+          
+          # 优化配置
+          autoindex_exact_size off;  # 关闭精确大小，显示为 KB/MB/GB，更易读
+          autoindex_localtime on;    # 显示服务器本地时间而非 GMT
+          charset utf-8;             # 强制使用 UTF-8 编码，防止中文文件名乱码
+          
+          # 允许所有用户访问（如果需要限制，可在此添加 auth_basic）
+          allow all;
+      }
+  
+      # --- 以下为原文件自带的注释参考（可选保持或删除） ---
+      
+      # 拒绝访问 .htaccess 文件
+      # location ~ /\.ht {
+      #    deny all;
+      # }
+  
+      # PHP 处理示例（如有需要可取消注释）
+      # location ~ \.php$ {
+      #    include snippets/fastcgi-php.conf;
+      #    fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+      # }
+  }
+  
+  
+  # 给予 www-data 访问该路径的权限
+  #sudo chmod +x /media/jello
+  #sudo chmod +x /media/jello/4878e04e
+  #sudo chmod -R 755 /media/jello/4878e04e/nhx
+  
+  ~~~
+  
+  
+  
+  
+  
   ```shell
   
   sudo apt install nginx -y
