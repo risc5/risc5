@@ -442,3 +442,13 @@ sudo killall sshd
 
 
 
+
+
+### Split windows
+
+| **功能**     | **自带终端 (Terminal)**      | **iTerm2 (推荐)**           |
+| ------------ | ---------------------------- | --------------------------- |
+| **上下拆分** | `Command + D`                | `Command + Shift + D`       |
+| **左右拆分** | **不支持**                   | `Command + D`               |
+| **切换窗格** | **`Command + Option + Tab`** | `Command + Option + 方向键` |
+| **关闭窗格** | `Command + Shift + D`        | `Command + W`               |
