@@ -1239,3 +1239,10 @@ sudo blockdev --setra 65536 /dev/sda
 `65536` 是参数值，单位通常是**扇区（Sectors）**。在大多数 Linux 系统中，一个扇区为 512 字节。
 
  **32 MB** 数据加载进内存（缓存）中。
+
+
+
+
+
+### fastfetch -c all
+
