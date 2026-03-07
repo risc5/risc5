@@ -18,3 +18,4 @@
 * https://gitlab.com/shaktiproject
 * singgox all version https://getsingbox.com/
 * 小网盘 https://wwwv.lanzn.com/
+* 快捷安装各种插件 https://1panel.cn/
