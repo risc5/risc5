@@ -16,4 +16,5 @@
 * http://www-inst.eecs.berkeley.edu/~cs250/fa13/handouts/lab2-riscv.pdf
 * https://news.ycombinator.com/item?id=15343331
 * https://gitlab.com/shaktiproject
-* singgox all version ttps://getsingbox.com/
+* singgox all version https://getsingbox.com/
+* 小网盘 https://wwwv.lanzn.com/
