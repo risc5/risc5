@@ -196,3 +196,21 @@ Pwd主板上
 
 * DEL 进入bios
 *  F11 进入 硬盘启动选项
+
+
+
+
+
+### 内存插入顺序
+
+
+
+
+
+<img src="./images/epyc/h12dsi-n6.png" alt="image-20260310155305036" style="zoom:67%;" />
+
+
+
+
+
+<img src="./images/epyc/h12dsi-n6-1.png" alt="image-20260310155305036" style="zoom:67%;" />
