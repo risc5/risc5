@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -q -y && apt-get install -q -y unzip openssl curl
 
 # 1. 安装 Xray
-bash -c "$(curl -L https://raw.githubusercontent.com/risc5/risc5/refs/heads/master/terraform/install-release-vless.sh" @ install -u root
+bash -c "$(curl -L https://raw.githubusercontent.com/risc5/risc5/refs/heads/master/terraform/install-release-vless.sh)" @ install -u root
 
 XRAY_CMD="/usr/local/bin/xray"
 UUID=$($XRAY_CMD uuid)
