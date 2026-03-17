@@ -4,6 +4,11 @@ terraform init
 terraform apply -state="1.tfstate" -var="my_name=sg-jello1" -var="state_file=1.tfstate" -auto-approve
 terraform destroy -state="1.tfstate" -var="my_name=sg-jello1" -var="state_file=1.tfstate" -auto-approve
 
+
+
+terraform apply -state="2.tfstate" -var="my_name=sg-jello2" -var="state_file=2.tfstate" -auto-approve
+
+
 terraform output -state="1.tfstate" -raw root_password
 
 terraform apply -auto-approve

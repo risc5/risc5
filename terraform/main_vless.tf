@@ -1,73 +1,99 @@
-#!/bin/bash
-# 一键安装 Xray VLESS-Reality (行号精准提取版)
-
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -q -y && apt-get install -q -y unzip openssl curl
-
-# 1. 安装 Xray
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root
-
-XRAY_CMD="/usr/local/bin/xray"
-UUID=$($XRAY_CMD uuid)
-
-# 2. 【核心修改】不再搜关键字，直接按输出顺序取值
-# x25519 执行一次，输出两行有效信息
-KEYS_OUT=$($XRAY_CMD x25519)
-
-# 第一串 Base64 字符是私钥
-PRI_KEY=$(echo "$KEYS_OUT" | grep -oE '[A-Za-z0-9/=+_-]{42,45}' | sed -n '1p' | tr -d '[:space:]')
-# 第二串 Base64 字符是公钥
-PUB_KEY=$(echo "$KEYS_OUT" | grep -oE '[A-Za-z0-9/=+_-]{42,45}' | sed -n '2p' | tr -d '[:space:]')
-
-# --- 调试打印 (你会看到它们不再相同) ---
-echo "--- KEYS CHECK ---"
-echo "Private: $PRI_KEY"
-echo "Public:  $PUB_KEY"
-echo "------------------"
-
-# 3. 基础参数
-LISTEN_PORT=$(shuf -i 10000-60000 -n 1)
-SHORT_ID=$(openssl rand -hex 4)
-SERVER_IP=$(curl -s https://api.ipify.org)
-DEST="www.microsoft.com:443"
-SNI="www.microsoft.com"
-
-# 4. 生成 Xray 配置文件 (使用 PRI_KEY)
-cat > /usr/local/etc/xray/config.json <<EOF
-{
-  "inbounds": [{
-    "listen": "0.0.0.0",
-    "port": $LISTEN_PORT,
-    "protocol": "vless",
-    "settings": {
-      "clients": [{"id": "$UUID", "flow": "xtls-rprx-vision"}],
-      "decryption": "none"
-    },
-    "streamSettings": {
-      "network": "tcp",
-      "security": "reality",
-      "realitySettings": {
-        "show": false,
-        "dest": "$DEST",
-        "xver": 0,
-        "serverNames": ["$SNI"],
-        "privateKey": "$PRI_KEY",
-        "shortIds": ["$SHORT_ID"]
-      }
+terraform {
+  required_providers {
+    linode = {
+      source  = "linode/linode"
+      version = "~> 2.13.0"
     }
-  }],
-  "outbounds": [{ "protocol": "freedom" }]
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.5.0"
+    }
+  }
 }
-EOF
 
-systemctl restart xray
-systemctl enable xray
+# 变量 1：用于标记服务器 Label (如 vless-1)
+variable "my_name" {
+  type        = string
+  description = "输入你的名字或编号以标记实例"
+}
 
-# 5. 生成 Clash YAML (使用 PUB_KEY，确保单行输出)
-# 使用 printf 确保不会产生意外的换行
-printf -- "- {name: Linode-Reality, server: %s, port: %s, type: vless, uuid: %s, tls: true, udp: true, flow: xtls-rprx-vision, reality-opts: {public-key: %s, short-id: %s}, servername: %s, client-fingerprint: chrome, network: tcp}\n" \
-"$SERVER_IP" "$LISTEN_PORT" "$UUID" "$PUB_KEY" "$SHORT_ID" "$SNI" > /root/clash_config.txt
+# 变量 2：用于在输出中显示正确的 state 文件名
+variable "state_file" {
+  type        = string
+  description = "当前部署使用的 state 文件名 (如 1.tfstate)"
+}
 
-# 6. 生成标准链接
-VLESS_LINK="vless://$UUID@$SERVER_IP:$LISTEN_PORT?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$SNI&fp=chrome&pbk=$PUB_KEY&sid=$SHORT_ID&type=tcp&headerType=none#Linode-Reality"
-echo "$VLESS_LINK" > /root/vless_link.txt
+provider "linode" {}
+
+# 1. 生成 14 位随机密码 (含特殊字符)
+resource "random_password" "root_pass" {
+  length           = 14
+  special          = true
+  override_special = "!@#$%^&*()-_=+"
+}
+
+# 2. 部署 Linode 新加坡 $5 节点 (Ubuntu 24.04)
+resource "linode_instance" "proxy_server" {
+  label           = "xray-${var.my_name}"
+  image           = "linode/ubuntu24.04"
+  region          = "ap-south"
+  type            = "g6-nanode-1"
+  root_pass       = random_password.root_pass.result
+  backups_enabled = false # 确保最省钱
+}
+
+# 3. SSH 登录并执行 GitHub 自动化脚本
+resource "null_resource" "setup_proxy" {
+  depends_on = [linode_instance.proxy_server]
+
+  connection {
+    type     = "ssh"
+    user     = "root"
+    password = random_password.root_pass.result
+    host     = linode_instance.proxy_server.ip_address
+    timeout  = "5m"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "export DEBIAN_FRONTEND=noninteractive",
+      
+      # 1. 下载并运行中国区连通性诊断 (Globalping)
+      "echo '🚀 正在初始化网络诊断工具...'",
+      "wget -qO /root/check_ping.py https://raw.githubusercontent.com/risc5/risc5/refs/heads/master/terraform/check_ping.py",
+      "python3 /root/check_ping.py",
+
+      # 2. 运行 Xray VLESS-Reality 部署脚本 (已修复密钥提取逻辑)
+      "echo '🚀 正在安装防封锁 Xray 服务端...'",
+      "wget -qO- https://raw.githubusercontent.com/risc5/risc5/refs/heads/master/terraform/setup_xray_reality.sh | bash",
+      
+      # 3. 最终汇总打印所有配置信息
+      "echo '================================================================================================'",
+      "echo '🖥️  服务器 IP: ${linode_instance.proxy_server.ip_address}'",
+      "echo '🔑 Root 密码: ${nonsensitive(random_password.root_pass.result)}'",
+      "echo '------------------------------------------------------------------------------------------------'",
+      "echo '🔗 VLESS 链接 (通用):'",
+      "cat /root/vless_link.txt",
+      "echo ''",
+      "echo '📦 Clash Verge 配置 (请确保使用 Mihomo/Meta 内核):'",
+      "cat /root/clash_config.txt",
+      "echo '------------------------------------------------------------------------------------------------'",
+      "echo '🚀 操作完成后，请在本地电脑运行以下命令销毁你的服务器:'",
+      "echo 'terraform destroy -state=\"${var.state_file}\" -var=\"my_name=${var.my_name}\" -var=\"state_file=${var.state_file}\" -auto-approve'",
+      "echo '================================================================================================'"
+    ]
+  }
+}
+
+# ----------------------------------------------------------------------
+# 屏幕底部的原生 Output 打印
+# ----------------------------------------------------------------------
+
+output "Server_IP" {
+  value = linode_instance.proxy_server.ip_address
+}
+
+output "Root_Password" {
+  # 使用 nonsensitive 强行解除保护，以便直接打印密码
+  value = nonsensitive(random_password.root_pass.result)
+}
