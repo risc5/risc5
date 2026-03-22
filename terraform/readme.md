@@ -28,10 +28,11 @@ terraform destroy -state="1.tfstate" -var="my_name=jello-2" -auto-approve
 ### Windows Install
 
 ~~~
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+打开powershell
+[System.Environment]::SetEnvironmentVariable("LINODE_TOKEN", "xxxToken", "User")
 
-[System.Environment]::SetEnvironmentVariable("LINODE_TOKEN", "你的Token", "User")
 
-choco install terraform
+安装 https://github.com/chocolatey/ChocolateyGUI/releases/download/3.0.0/ChocolateyGUI.msi
+在里面安装 terraform 
 ~~~
 
