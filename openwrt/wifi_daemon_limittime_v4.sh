@@ -13,7 +13,7 @@ OFF_HOUR=19
 OFF_MIN=0
 
 # 每次检查的时间间隔（秒）
-INTERVAL=60
+INTERVAL=300
 
 # --- 新增：每日限时设备区 ---
 # 设定需要被限制每天只能上 1 小时网的 MAC 地址 
@@ -23,8 +23,8 @@ QUOTA_LIMIT_MIN=60
 QUOTA_LIMIT_SEC=$((QUOTA_LIMIT_MIN * 60))
 
 # 存储累积时间和日期的临时文件（存放在 /tmp 内存中，重启后清零）
-QUOTA_FILE="/tmp/mac_quota_usage.txt"
-QUOTA_DATE_FILE="/tmp/mac_quota_date.txt"
+QUOTA_FILE="/etc/mac_quota_usage.txt"
+QUOTA_DATE_FILE="/etc/mac_quota_date.txt"
 # ==============================================
 
 sleep 80
