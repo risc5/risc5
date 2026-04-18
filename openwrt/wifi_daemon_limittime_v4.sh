@@ -126,17 +126,20 @@ check_time_window_block() {
             uci set firewall.block_window.name='Block_Window_MAC'
             uci set firewall.block_window.src='lan'
             uci set firewall.block_window.dest='wan'
-            uci set firewall.block_window.target='REJECT'
+            uci set firewall.block_window.target='DROP'
             uci add_list firewall.block_window.src_mac="$QUOTA_MAC"
             uci reorder firewall.block_window=0 
             uci commit firewall
             /etc/init.d/firewall reload
             
-            local mac_ip=$(ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | head -n 1)
-            if [ -n "$mac_ip" ]
-            then
-                conntrack -D -s "$mac_ip" 2>/dev/null
-            fi
+            # 【暴力切断】遍历该MAC对应的所有IP(IPv4和IPv6)，强杀所有长连接
+            ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | while read -r ip_addr; do
+                # 剔除IPv6可能带的 %br-lan 后缀，以免 conntrack 报错
+                clean_ip=$(echo "$ip_addr" | awk -F'%' '{print $1}')
+                # 杀掉以此IP为源和目的地的所有活跃状态
+                conntrack -D -s "$clean_ip" >/dev/null 2>&1
+                conntrack -D -d "$clean_ip" >/dev/null 2>&1
+            done
         fi
     else
         if [ -n "$rule_exists" ]
@@ -177,17 +180,18 @@ check_mac_quota() {
             uci set firewall.block_quota.name='Block_Quota_MAC'
             uci set firewall.block_quota.src='lan'
             uci set firewall.block_quota.dest='wan'
-            uci set firewall.block_quota.target='REJECT'
+            uci set firewall.block_quota.target='DROP'
             uci add_list firewall.block_quota.src_mac="$QUOTA_MAC"
             uci reorder firewall.block_quota=0 
             uci commit firewall
             /etc/init.d/firewall reload
             
-            local mac_ip=$(ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | head -n 1)
-            if [ -n "$mac_ip" ]
-            then
-                conntrack -D -s "$mac_ip" 2>/dev/null
-            fi
+            # 【暴力切断】遍历该MAC对应的所有IP(IPv4和IPv6)，强杀所有长连接
+            ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | while read -r ip_addr; do
+                clean_ip=$(echo "$ip_addr" | awk -F'%' '{print $1}')
+                conntrack -D -s "$clean_ip" >/dev/null 2>&1
+                conntrack -D -d "$clean_ip" >/dev/null 2>&1
+            done
         fi
         return 
     else
