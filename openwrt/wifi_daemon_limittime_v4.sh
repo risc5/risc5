@@ -25,6 +25,14 @@ QUOTA_LIMIT_SEC=$((QUOTA_LIMIT_MIN * 60))
 # 存储累积时间和日期的临时文件（存放在 /root 内存中，防止重启后清零）
 QUOTA_FILE="/root/mac_quota_usage.txt"
 QUOTA_DATE_FILE="/root/mac_quota_date.txt"
+
+# --- 新增：特定时间段封锁设置 ---
+# 设定禁止 QUOTA_MAC 上网的开始时间
+WINDOW_START_H=12
+WINDOW_START_M=0
+# 设定禁止 QUOTA_MAC 上网的结束时间
+WINDOW_END_H=15
+WINDOW_END_M=30
 # ==============================================
 
 sleep 80
@@ -80,6 +88,64 @@ update_firewall_rule() {
     then
         sleep 3
         conntrack -F 2>/dev/null
+    fi
+}
+
+# ================= 特定时间段断网函数 (12:00-15:30) =================
+check_time_window_block() {
+    local cur_h=$(date +%H | awk '{print int($0)}')
+    local cur_m=$(date +%M | awk '{print int($0)}')
+    local cur_val=$((cur_h * 60 + cur_m))
+    
+    local start_val=$((WINDOW_START_H * 60 + WINDOW_START_M))
+    local end_val=$((WINDOW_END_H * 60 + WINDOW_END_M))
+    
+    local in_window=0
+    if [ "$start_val" -lt "$end_val" ]
+    then
+        if [ "$cur_val" -ge "$start_val" ] && [ "$cur_val" -lt "$end_val" ]
+        then
+            in_window=1
+        fi
+    else
+        if [ "$cur_val" -ge "$start_val" ] || [ "$cur_val" -lt "$end_val" ]
+        then
+            in_window=1
+        fi
+    fi
+
+    local rule_exists=$(uci -q get firewall.block_window)
+
+    if [ "$in_window" -eq 1 ]
+    then
+        if [ -z "$rule_exists" ]
+        then
+            logger -t self_control_daemon "【时段锁定】进入特定封锁区间，切断 $QUOTA_MAC 网络"
+            
+            uci set firewall.block_window=rule
+            uci set firewall.block_window.name='Block_Window_MAC'
+            uci set firewall.block_window.src='lan'
+            uci set firewall.block_window.dest='wan'
+            uci set firewall.block_window.target='REJECT'
+            uci add_list firewall.block_window.src_mac="$QUOTA_MAC"
+            uci reorder firewall.block_window=0 
+            uci commit firewall
+            /etc/init.d/firewall reload
+            
+            local mac_ip=$(ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | head -n 1)
+            if [ -n "$mac_ip" ]
+            then
+                conntrack -D -s "$mac_ip" 2>/dev/null
+            fi
+        fi
+    else
+        if [ -n "$rule_exists" ]
+        then
+            logger -t self_control_daemon "【时段解锁】离开特定封锁区间，恢复 $QUOTA_MAC 网络"
+            uci -q delete firewall.block_window
+            uci commit firewall
+            /etc/init.d/firewall reload
+        fi
     fi
 }
 
@@ -143,6 +209,12 @@ check_mac_quota() {
             can_access_internet=0
         fi
     fi
+    
+    # === 新增防冤枉逻辑：如果该设备此时正处于12:00-15:30时段锁定中，上不了网，则不计扣额度
+    if [ -n "$(uci -q get firewall.block_window)" ]
+    then
+        can_access_internet=0
+    fi
 
     if [ "$can_access_internet" -eq 1 ]
     then
@@ -203,6 +275,7 @@ do
         LAST_STATE="$TARGET_STATE"
     fi
     
+    check_time_window_block
     check_mac_quota
     
     sleep $INTERVAL
