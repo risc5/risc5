@@ -73,7 +73,9 @@
        稍候片刻在浏览器中输入192.168.1.1，打开登录页面表示重启完毕。
      （不要通过路由器指示灯判断是否启动完毕，刷入临时固件后指示灯一直处于熄灭状态）
 
+https://www.youtube.com/watch?v=n12evGARb1o
 
+能增加对多个mac地址的光控
 
 
 
@@ -165,3 +167,12 @@ https://www.right.com.cn/forum/forum.php?mod=viewthread&tid=8426229&extra=page%3
 https://github.com/fightroad/AX6-OpenWRT
 
 https://github.com/VIKINGYFY/immortalwrt
+
+
+
+
+
+
+
+
+

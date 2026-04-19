@@ -9,7 +9,7 @@ ON_HOUR=4
 ON_MIN=0
 
 # 设定开始【自我断网约束】的时间 (24小时制) - 启动封锁
-OFF_HOUR=22
+OFF_HOUR=17
 OFF_MIN=0
 
 # 每次检查的时间间隔（秒）
@@ -17,7 +17,7 @@ INTERVAL=60
 
 # --- 新增：每日限时设备区 ---
 # 设定需要被限制每天只能上 1 小时网的 MAC 地址 
-QUOTA_MAC="FE:09:4A:EA:E7:E3"
+QUOTA_MAC="AA:09:4A:BB:CC:EE"
 # 设定每日配额时间（分钟）
 QUOTA_LIMIT_MIN=60
 
@@ -27,11 +27,11 @@ QUOTA_DATE_FILE="/root/mac_quota_date.txt"
 
 # --- 新增：特定时间段封锁设置 ---
 # 设定禁止 QUOTA_MAC 上网的开始时间
-WINDOW_START_H=22
-WINDOW_START_M=08
+WINDOW_START_H=12
+WINDOW_START_M=03
 # 设定禁止 QUOTA_MAC 上网的结束时间
-WINDOW_END_H=22
-WINDOW_END_M=30
+WINDOW_END_H=16
+WINDOW_END_M=00
 # ==============================================
 
 # ================= 核心修复：数字净化与八进制防护 (BusyBox 兼容版) =================
@@ -63,7 +63,7 @@ WINDOW_START_VAL=$((WINDOW_START_H * 60 + WINDOW_START_M))
 WINDOW_END_VAL=$((WINDOW_END_H * 60 + WINDOW_END_M))
 # ===================================================================
 
-sleep 8
+sleep 80
 
 logger -t self_control_daemon "等待系统时间同步..."
 
@@ -73,6 +73,21 @@ do
 done
 
 logger -t self_control_daemon "时间同步完成，启动自我约束及限流巡检。"
+
+
+# ================= 物理切断 Wi-Fi 函数 =================
+# 该函数会扫描所有无线接口 (2.4G, 5G, 访客网络等) 并强制踢出该 MAC
+kick_mac_from_wifi() {
+    logger -t self_control_daemon "执行物理切断：强制剔除 $QUOTA_MAC 的 Wi-Fi 连接"
+    
+    # 自动获取当前所有活跃的无线 hostapd 接口 (如 hostapd.wlan0, hostapd.wlan1)
+    local interfaces=$(ubus list hostapd.* | awk -F'hostapd.' '{print $2}')
+    
+    for iface in $interfaces; do
+        # 发送 Deauth 指令，并封禁 60 秒 (配合脚本循环)
+        ubus call hostapd.$iface del_client "{ \"addr\": \"$QUOTA_MAC\", \"reason\": 1, \"deauth\": true, \"ban_time\": 60000 }" >/dev/null 2>&1
+    done
+}
 
 # ================= 防火墙控制函数 (全局控制) =================
 update_firewall_rule() {
@@ -162,7 +177,7 @@ check_time_window_block() {
             
             sleep 5
             
-            for i in 1 2; do
+            for i in $(seq 1 10); do
                 ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | while read -r ip_addr; do
                     clean_ip=$(echo "$ip_addr" | awk -F'%' '{print $1}')
                     conntrack -D -s "$clean_ip" >/dev/null 2>&1
@@ -170,6 +185,7 @@ check_time_window_block() {
                 done
                 sleep 1
             done
+            kick_mac_from_wifi
         fi
     else
         if [ -n "$rule_exists" ]
@@ -241,7 +257,7 @@ check_mac_quota() {
             
             sleep 5
             
-            for i in 1 2; do
+            for i in $(seq 1 10); do
                 ip neigh show | grep -i "$QUOTA_MAC" | awk '{print $1}' | while read -r ip_addr; do
                     clean_ip=$(echo "$ip_addr" | awk -F'%' '{print $1}')
                     conntrack -D -s "$clean_ip" >/dev/null 2>&1
@@ -249,6 +265,7 @@ check_mac_quota() {
                 done
                 sleep 1
             done
+            kick_mac_from_wifi
         fi
         return 
     else
