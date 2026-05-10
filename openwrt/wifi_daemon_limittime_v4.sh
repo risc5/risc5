@@ -17,7 +17,7 @@ INTERVAL=60
 
 # --- 新增：每日限时设备区 ---
 # 设定需要被限制每天只能上 1 小时网的 MAC 地址 
-QUOTA_MAC="AA:09:4A:BB:CC:EE"
+QUOTA_MAC="AA:BB:CC:DD:EE:BB"
 # 设定每日配额时间（分钟）
 QUOTA_LIMIT_MIN=60
 
@@ -25,13 +25,10 @@ QUOTA_LIMIT_MIN=60
 QUOTA_FILE="/root/mac_quota_usage.txt"
 QUOTA_DATE_FILE="/root/mac_quota_date.txt"
 
-# --- 新增：特定时间段封锁设置 ---
-# 设定禁止 QUOTA_MAC 上网的开始时间
-WINDOW_START_H=12
-WINDOW_START_M=03
-# 设定禁止 QUOTA_MAC 上网的结束时间
-WINDOW_END_H=16
-WINDOW_END_M=00
+# --- 新增：特定时间段封锁设置 (支持多时间段) ---
+# 设定禁止 QUOTA_MAC 上网的时间段列表 (格式: 开始时:开始分-结束时:结束分)
+# 可以用空格分隔随意增加多个时间段，若跨天(如22:30到4:00)，系统会自动判断。
+BLOCK_WINDOWS="12:03-15:03 22:30-04:00"
 # ==============================================
 
 # ================= 核心修复：数字净化与八进制防护 (BusyBox 兼容版) =================
@@ -49,18 +46,12 @@ ON_HOUR=$(clean_num "$ON_HOUR")
 ON_MIN=$(clean_num "$ON_MIN")
 OFF_HOUR=$(clean_num "$OFF_HOUR")
 OFF_MIN=$(clean_num "$OFF_MIN")
-WINDOW_START_H=$(clean_num "$WINDOW_START_H")
-WINDOW_START_M=$(clean_num "$WINDOW_START_M")
-WINDOW_END_H=$(clean_num "$WINDOW_END_H")
-WINDOW_END_M=$(clean_num "$WINDOW_END_M")
 QUOTA_LIMIT_MIN=$(clean_num "$QUOTA_LIMIT_MIN")
 
 # 预计算固定阈值
 QUOTA_LIMIT_SEC=$((QUOTA_LIMIT_MIN * 60))
 ON_VAL=$((ON_HOUR * 60 + ON_MIN))
 OFF_VAL=$((OFF_HOUR * 60 + OFF_MIN))
-WINDOW_START_VAL=$((WINDOW_START_H * 60 + WINDOW_START_M))
-WINDOW_END_VAL=$((WINDOW_END_H * 60 + WINDOW_END_M))
 # ===================================================================
 
 sleep 80
@@ -137,19 +128,37 @@ update_firewall_rule() {
 check_time_window_block() {
     local rule_exists
     local in_window=0
+    local window start_time end_time start_h start_m end_h end_m start_val end_val
 
     rule_exists=$(uci -q get firewall.block_window_fwd)
     
-    if [ "$WINDOW_START_VAL" -lt "$WINDOW_END_VAL" ]
-    then
-        if [ "$CUR_VAL" -ge "$WINDOW_START_VAL" ] && [ "$CUR_VAL" -lt "$WINDOW_END_VAL" ]; then
-            in_window=1
+    # 遍历检查当前时间是否命中配置的任何一个时间段
+    for window in $BLOCK_WINDOWS; do
+        start_time=$(echo "$window" | cut -d'-' -f1)
+        end_time=$(echo "$window" | cut -d'-' -f2)
+
+        start_h=$(clean_num "$(echo "$start_time" | cut -d':' -f1)")
+        start_m=$(clean_num "$(echo "$start_time" | cut -d':' -f2)")
+        end_h=$(clean_num "$(echo "$end_time" | cut -d':' -f1)")
+        end_m=$(clean_num "$(echo "$end_time" | cut -d':' -f2)")
+
+        start_val=$((start_h * 60 + start_m))
+        end_val=$((end_h * 60 + end_m))
+
+        if [ "$start_val" -lt "$end_val" ]
+        then
+            if [ "$CUR_VAL" -ge "$start_val" ] && [ "$CUR_VAL" -lt "$end_val" ]; then
+                in_window=1
+                break
+            fi
+        else
+            # 跨天的时间段处理 (例如 22:30 到 04:00)
+            if [ "$CUR_VAL" -ge "$start_val" ] || [ "$CUR_VAL" -lt "$end_val" ]; then
+                in_window=1
+                break
+            fi
         fi
-    else
-        if [ "$CUR_VAL" -ge "$WINDOW_START_VAL" ] || [ "$CUR_VAL" -lt "$WINDOW_END_VAL" ]; then
-            in_window=1
-        fi
-    fi
+    done
 
     if [ "$in_window" -eq 1 ]
     then
