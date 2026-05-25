@@ -4,20 +4,19 @@
 # 设定【永远允许上网】的白名单 MAC 位址
 ALWAYS_ONLINE_MACS="11:22:33:44:55:66 AA:BB:CC:DD:EE:FF"
 
-# 设定允许自由上网的开始时间 (24小时制) - 解除封锁
-ON_HOUR=4
-ON_MIN=0
-
-# 设定开始【自我断网约束】的时间 (24小时制) - 启动封锁
-OFF_HOUR=17
-OFF_MIN=0
+# --- 全局多时段断网约束设置 ---
+# 设定全局启动【自我断网约束】的时间段列表 (格式: 开始时:开始分-结束时:结束分)
+# 只要命中以下任意时间段，即启动全局断网策略（ALWAYS_ONLINE_MACS 和 QUOTA_MAC 除外）
+# 可以用空格分隔随意增加多个时间段，若跨天(如22:00到5:00)，系统会自动判断。
+# 完美兼容 08 或 09 等时间数字，绝不触发八进制报错。
+GLOBAL_BLOCK_WINDOWS="17:00-04:00"
 
 # 每次检查的时间间隔（秒）
 INTERVAL=60
 
-# --- 新增：每日限时设备区 ---
+# --- 每日限时设备区 ---
 # 设定需要被限制每天只能上 1 小时网的 MAC 地址 (支持空格分隔配置多个 MAC 地址)
-QUOTA_MAC="AA:BB:CC:DD:EE:BB AA:BB:CC:DD:EE:CC"
+QUOTA_MAC="AA:BB:CC:DD:EE:BB"
 # 设定每日配额时间（分钟）
 QUOTA_LIMIT_MIN=60
 
@@ -25,7 +24,7 @@ QUOTA_LIMIT_MIN=60
 QUOTA_FILE="/root/mac_quota_usage.txt"
 QUOTA_DATE_FILE="/root/mac_quota_date.txt"
 
-# --- 新增：特定时间段封锁设置 (支持多时间段) ---
+# --- 特定时间段封锁设置 (支持多时间段) ---
 # 设定禁止 QUOTA_MAC 上网的时间段列表 (格式: 开始时:开始分-结束时:结束分)
 # 可以用空格分隔随意增加多个时间段，若跨天(如22:30到4:00)，系统会自动判断。
 BLOCK_WINDOWS="12:03-15:03 22:30-04:00"
@@ -42,16 +41,10 @@ clean_num() {
 }
 
 # 初始化参数：过滤并转换为纯数字
-ON_HOUR=$(clean_num "$ON_HOUR")
-ON_MIN=$(clean_num "$ON_MIN")
-OFF_HOUR=$(clean_num "$OFF_HOUR")
-OFF_MIN=$(clean_num "$OFF_MIN")
 QUOTA_LIMIT_MIN=$(clean_num "$QUOTA_LIMIT_MIN")
 
 # 预计算固定阈值
 QUOTA_LIMIT_SEC=$((QUOTA_LIMIT_MIN * 60))
-ON_VAL=$((ON_HOUR * 60 + ON_MIN))
-OFF_VAL=$((OFF_HOUR * 60 + OFF_MIN))
 # ===================================================================
 
 sleep 80
@@ -142,7 +135,7 @@ check_time_window_block() {
 
         start_h=$(clean_num "$(echo "$start_time" | cut -d':' -f1)")
         start_m=$(clean_num "$(echo "$start_time" | cut -d':' -f2)")
-        end_h=$(clean_num "$(echo "$end_time" | cut -d':' -f2)")
+        end_h=$(clean_num "$(echo "$end_time" | cut -d':' -f1)")
         end_m=$(clean_num "$(echo "$end_time" | cut -d':' -f2)")
 
         start_val=$((start_h * 60 + start_m))
@@ -359,18 +352,36 @@ do
     CUR_M=$(clean_num "$(date +%M)")
     CUR_VAL=$((CUR_H * 60 + CUR_M))
 
-    TARGET_STATE="DOWN"
+    # 默认状态为放行
+    TARGET_STATE="UP"
+    
+    # 遍历检查当前时间是否命中任何一个全局断网时间段
+    for g_window in $GLOBAL_BLOCK_WINDOWS; do
+        g_start_time=$(echo "$g_window" | cut -d'-' -f1)
+        g_end_time=$(echo "$g_window" | cut -d'-' -f2)
 
-    if [ "$ON_VAL" -lt "$OFF_VAL" ]
-    then
-        if [ "$CUR_VAL" -ge "$ON_VAL" ] && [ "$CUR_VAL" -lt "$OFF_VAL" ]; then
-            TARGET_STATE="UP"
+        g_start_h=$(clean_num "$(echo "$g_start_time" | cut -d':' -f1)")
+        g_start_m=$(clean_num "$(echo "$g_start_time" | cut -d':' -f2)")
+        g_end_h=$(clean_num "$(echo "$g_end_time" | cut -d':' -f1)")
+        g_end_m=$(clean_num "$(echo "$g_end_time" | cut -d':' -f2)")
+
+        g_start_val=$((g_start_h * 60 + g_start_m))
+        g_end_val=$((g_end_h * 60 + g_end_m))
+
+        if [ "$g_start_val" -lt "$g_end_val" ]
+        then
+            if [ "$CUR_VAL" -ge "$g_start_val" ] && [ "$CUR_VAL" -lt "$g_end_val" ]; then
+                TARGET_STATE="DOWN"
+                break
+            fi
+        else
+            # 跨天的时间段处理 (例如 17:00 到 04:00)
+            if [ "$CUR_VAL" -ge "$g_start_val" ] || [ "$CUR_VAL" -lt "$g_end_val" ]; then
+                TARGET_STATE="DOWN"
+                break
+            fi
         fi
-    else
-        if [ "$CUR_VAL" -ge "$ON_VAL" ] || [ "$CUR_VAL" -lt "$OFF_VAL" ]; then
-            TARGET_STATE="UP"
-        fi
-    fi
+    done
 
     if [ "$TARGET_STATE" != "$LAST_STATE" ]
     then
