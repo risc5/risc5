@@ -4,8 +4,12 @@
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -q -y && apt-get install -q -y unzip openssl curl
 
-# 1. 安装 Xray
-bash -c "$(curl -L https://raw.githubusercontent.com/risc5/risc5/refs/heads/master/terraform/install-release-vless.sh)" @ install -u root
+# 1. 安装 Xray (锁定稳定兼容版本 v1.8.24)
+if [ -f "/root/install-release-vless.sh" ]; then
+    bash /root/install-release-vless.sh @ install --version v1.8.24 -u root
+else
+    bash -c "$(curl -L https://raw.githubusercontent.com/risc5/risc5/refs/heads/master/terraform/install-release-vless.sh)" @ install --version v1.8.24 -u root
+fi
 
 XRAY_CMD="/usr/local/bin/xray"
 UUID=$($XRAY_CMD uuid)
@@ -29,8 +33,8 @@ echo "------------------"
 LISTEN_PORT=$(shuf -i 10000-60000 -n 1)
 SHORT_ID=$(openssl rand -hex 4)
 SERVER_IP=$(curl -s https://api.ipify.org)
-DEST="www.microsoft.com:443"
-SNI="www.microsoft.com"
+DEST="swdist.apple.com:443"
+SNI="swdist.apple.com"
 
 # 4. 生成 Xray 配置文件 (使用 PRI_KEY)
 cat > /usr/local/etc/xray/config.json <<EOF
