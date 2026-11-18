@@ -587,3 +587,20 @@ defaults write com.colliderli.iina AppleLanguages '("zh-cn")' 改成中文
 defaults delete com.colliderli.iina AppleLanguages 改成系统默认
 ~~~
 
+
+
+
+
+vless://a38f988c-9349-4dbe-d966-877a5ef0a1c7@104.64.213.240:25645?type=tcp&security=reality&sni=www.speedtest.net&pbk=S-g0oP36DShii1uPOnZDSEhp_wQghX6h68PgMivOmD4&flow=&fp=chrome#other|other@google.com
+
+### top
+
+~~~
+btop
+nvtop
+htop
+rstop
+btm
+glances
+~~~
+
