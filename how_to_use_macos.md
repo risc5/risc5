@@ -124,7 +124,8 @@ find . -name "*.md" -exec grep -Hn "甲乙" {} \;
 
 grep -rin "甲乙" --include="*.md" .
 
-
+brew install ripgrep
+rg "甲乙" -t md
 ~~~
 
 
@@ -452,3 +453,137 @@ sudo killall sshd
 | **左右拆分** | **不支持**                   | `Command + D`               |
 | **切换窗格** | **`Command + Option + Tab`** | `Command + Option + 方向键` |
 | **关闭窗格** | `Command + Shift + D`        | `Command + W`               |
+
+
+
+
+
+
+
+在 Homebrew 中，`brew install` 和 `brew install --cask` 的核心区别在于：**它们面向的管理对象和安装方式完全不同**。
+
+简单来说：
+
+- **`brew install`（Formulae）**：用来装**纯终端命令行工具、开发库、后台服务**。
+- **`brew install --cask`（Casks）**：用来装**带图形界面的 Mac 桌面软件、驱动程序、大型系统级安装包（`.pkg` / `.app`）**。
+
+### brew install
+
+| **维度**           | **brew install <package> (Formula)**                         | **brew install --cask <package> (Cask)**                     |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **主要目标**       | 命令行程序（CLI）、C/C++ 动态库、开发者工具                  | 图形界面软件（GUI App）、字体、驱动、大型套件                |
+| **典型例子**       | `git`, `python`, `ffmpeg`, `cairo`, `nginx`                  | `google-chrome`, `visual-studio-code`, `basictex`, `docker`  |
+| **下载格式**       | 源码压缩包、Bottle（预编译的 `.tar.gz` 二进制包）            | 开发者官方发布的 `.dmg`、`.zip`、`.pkg` 安装包               |
+| **安装位置**       | 安装到 `/usr/local/Cellar/` (Intel) 或 `/opt/homebrew/Cellar/` (M 系列)，然后软链接到 `bin/`、`lib/` | 解压 `.app` 并直接放进 `/Applications`（应用程序目录），或静默运行 `.pkg` 安装器 |
+| **卸载效果**       | 删除命令行二进制及链接，不留系统痕迹                         | 将 `/Applications/xxx.app` 移至废纸篓，清理配套插件          |
+| **是否会本地编译** | 如果缺少对应系统的预编译包，**可能会触发源码编译**           | **绝对不会编译**，它只是帮你从软件官网下载官方打包好的安装程序并自动解压/安装 |
+
+### 
+
+
+
+- **`brew install`**：就像 Linux 里的 `apt-get` 或 `yum`，主要给终端和开发者搭环境用（提供二进制可执行命令和 `.dylib` 库文件）。
+- **`brew install --cask`**：就像一个**自动化“软件管家”**。平时你装软件需要：打开官网 -> 点击下载 `.dmg` -> 双击打开挂载磁盘映像 -> 拖动图标到“应用程序”文件夹。`--cask` 就是把这一连串“点点点”的动作自动化搞定。
+
+
+
+
+
+
+
+### 1. 移除旧的工具目录
+sudo rm -rf /Library/Developer/CommandLineTools
+
+### 2. 触发重新安装
+xcode-select --install
+
+
+
+### 1. 文件搜索与查看
+
+- **`fd`（彻底淘汰 `find`）**
+  - **痛点**：`find . -name "*.md"` 语法反直觉，且龟速扫描所有缓存和隐藏目录。
+  - **现代方案**：直接输入 `fd -e md` 或 `fd "甲乙"`。
+  - **优势**：速度媲美 `ripgrep`，默认彩色输出，自动忽略 `.git` 和 `.gitignore` 中的路径。
+  - **安装**：`brew install fd` / `sudo apt install fd-find`
+- **`sd`（淘汰反人类的 `sed`）**
+  - **痛点**：`sed 's/old/new/g'` 遇到特殊字符和路径斜杠时，转义符写到让人崩溃。
+  - **现代方案**：`sd 'old_string' 'new_string' file.txt`
+  - **优势**：纯纯的直觉操作，底层使用和 `ripgrep` 完全相同的正则引擎，速度极快。
+  - **安装**：`brew install sd` / `cargo install sd`
+
+### 2. 目录管理与系统监控
+
+
+
+- **`zoxide`（淘汰 `cd`）**
+
+  - **痛点**：在深层目录间反复 `cd ../../../`，极为繁琐。
+  - **现代方案**：直接敲 `z proj`。
+  - **优势**：一个更智能的 `cd`。它会默默记录你访问过的路径频率（Frecency 算法）。哪怕你当前在根目录，只要敲 `z node`，它就能瞬间将你带到之前配置 Solana 或 BSC 节点的深层目录。
+  - **安装**：`brew install zoxide` / `sudo apt install zoxide`
+
+  ~~~
+  # 1. 将 init 代码追加到你的 zshrc 配置文件中
+  echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+  
+  # 2. 刷新当前终端让其立即生效
+  source ~/.zshrc
+  
+  
+  # 1. 将 init 代码追加到 bashrc 配置文件中
+  echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
+  
+  # 2. 刷新当前终端让其立即生效
+  source ~/.bashrc
+  ~~~
+
+  
+
+- **`procs`（淘汰 `ps aux`）**
+
+  - **痛点**：找个进程还要 `ps aux | grep 进程名`，且列名难懂。
+  - **现代方案**：`procs watch`
+  - **优势**：全彩输出，支持关键字直接过滤，**原生显示 Docker 容器信息**。如果你在跑多个挂载不同存储卷的容器化节点服务，它能直接告诉你这个进程属于哪个 Docker 容器，并显示 TCP/UDP 端口占用。
+  - **安装**：`brew install procs` / `cargo install procs`
+
+### 3. 磁盘清理
+
+- **`dust`（淘汰 `du -sh`）**
+  - **痛点**：看不清到底哪个子目录占了最大的空间。
+  - **现代方案**：`dust`
+  - **优势**：直接在终端画出一个包含容量百分比条的树状图，让你一眼看出 4TB 的 NVMe 硬盘空间是被哪个区块数据目录吃掉的。
+  - **安装**：`brew install dust` / `cargo install du-dust`
+  - 
+
+~~~
+
+curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+
+
+cargo binstall du-dust
+
+
+
+brew install ripgrep
+
+
+rg "甲乙" -g "*.md"
+~~~
+
+
+
+
+
+### 设置语言
+
+
+
+~~~
+
+在MAC系统的命令行下运行如下命令：
+defaults write com.colliderli.iina AppleLanguages '("zh-cn")' 改成中文
+
+defaults delete com.colliderli.iina AppleLanguages 改成系统默认
+~~~
+
