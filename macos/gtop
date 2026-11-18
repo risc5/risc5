@@ -1,0 +1,230 @@
+#!/usr/bin/env python3
+import plistlib, subprocess, sys, re
+
+cmd = [
+    "sudo", "powermetrics",
+    "--samplers", "tasks,gpu_power,smc",
+    "--show-process-gpu",
+    "-i", "3000",
+    "-f", "plist"
+]
+proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+buf = bytearray()
+
+# 64位无符号整数下溢阈值：任何大于 128GB 的显存读数均判定为驱动计数器下溢 Bug
+MAX_VALID_VRAM_BYTES = 128 * 1024 * 1024 * 1024
+
+def valid_bytes(val):
+    """校验字节数是否合法，过滤 macOS 驱动 uint64 负数下溢 (17179869183 GB)"""
+    if isinstance(val, int) and 0 <= val < MAX_VALID_VRAM_BYTES:
+        return val
+    return 0
+
+def get_real_gpu_info():
+    """在脚本启动时获取显卡的具体硬件型号和真实物理总显存(MB)"""
+    info = {
+        "Intel": {"name": "\033[1;34m[Intel 核显]\033[0m", "vram_mb": 1536.0},
+        "AMD":   {"name": "\033[1;31m[AMD 独显]\033[0m",   "vram_mb": 0.0}
+    }
+    try:
+        out = subprocess.check_output(["system_profiler", "SPDisplaysDataType"], stderr=subprocess.DEVNULL).decode('utf-8')
+        current_vendor = None
+        for line in out.split('\n'):
+            line_s = line.strip()
+            if "Chipset Model:" in line_s:
+                val = line_s.split(":", 1)[1].strip()
+                if "Intel" in val:
+                    current_vendor = "Intel"
+                    info["Intel"]["name"] = f"\033[1;34m[{val}]\033[0m"
+                elif "AMD" in val or "Radeon" in val:
+                    current_vendor = "AMD"
+                    info["AMD"]["name"] = f"\033[1;31m[{val}]\033[0m"
+                else:
+                    current_vendor = None
+            elif "VRAM" in line_s and current_vendor:
+                m = re.search(r':\s*(\d+(?:\.\d+)?)\s*(GB|MB)', line_s, re.IGNORECASE)
+                if m:
+                    num = float(m.group(1))
+                    unit = m.group(2).upper()
+                    info[current_vendor]["vram_mb"] = num * 1024.0 if unit == "GB" else num
+    except:
+        pass
+    return info
+
+GPU_INFO = get_real_gpu_info()
+
+def format_size(mb):
+    """将 MB 格式化为 GB 或 MB，并自动去除多余的小数点和 0"""
+    if mb >= 1024:
+        gb = mb / 1024.0
+        return f"{gb:.2f}".rstrip('0').rstrip('.') + " GB"
+    return f"{mb:.0f} MB"
+
+def parse_ioreg_nodes(nodes, raw_stats):
+    """递归遍历 ioreg plist 树，精准提取 IOAccelerator 主节点的 PerformanceStatistics"""
+    for node in nodes:
+        if not isinstance(node, dict):
+            continue
+        
+        perf = node.get("PerformanceStatistics")
+        if isinstance(perf, dict):
+            cls_name = str(node.get("IOClass", "")) + " " + str(node.get("IORegistryEntryName", ""))
+            vendor = ""
+            if any(k in cls_name for k in ("Intel", "IGAccel", "AppleIntel")):
+                vendor = "Intel"
+            elif any(k in cls_name for k in ("AMD", "Radeon", "ATY")):
+                vendor = "AMD"
+                
+            if vendor:
+                st = raw_stats[vendor]
+                st["detected"] = True
+                
+                # 兼容不同驱动的键名大小写，并过滤 uint64 下溢值
+                for k, v in perf.items():
+                    kl = k.lower()
+                    if kl == "vramusedbytes":
+                        st["vram_used"] = max(st["vram_used"], valid_bytes(v))
+                    elif kl == "inusesystemmemorybytes":
+                        st["sys_used"] = max(st["sys_used"], valid_bytes(v))
+                    elif kl == "gartusedbytes":
+                        st["gart_used"] = max(st["gart_used"], valid_bytes(v))
+                    elif kl in ("device utilization %", "gpu core utilization", "gpu activity %"):
+                        if isinstance(v, int) and 0 <= v <= 100:
+                            st["util"] = v if st["util"] is None else max(st["util"], v)
+
+        # 继续遍历子节点
+        children = node.get("IORegistryEntryChildren")
+        if isinstance(children, list):
+            parse_ioreg_nodes(children, raw_stats)
+
+def get_dual_gpu_hardware_status():
+    """通过 ioreg XML plist 格式安全获取双卡状态"""
+    try:
+        # 使用 -a 输出标准 XML Plist，彻底避免文本截断与正则误匹配
+        out = subprocess.check_output(['ioreg', '-a', '-c', 'IOAccelerator', '-r', '-d', '1'], stderr=subprocess.DEVNULL)
+        plist_data = plistlib.loads(out)
+    except:
+        return "无法读取 IORegistry 显卡状态"
+    
+    raw_stats = {
+        "Intel": {"detected": False, "vram_used": 0, "sys_used": 0, "gart_used": 0, "util": None},
+        "AMD":   {"detected": False, "vram_used": 0, "sys_used": 0, "gart_used": 0, "util": None}
+    }
+    
+    if isinstance(plist_data, list):
+        parse_ioreg_nodes(plist_data, raw_stats)
+    elif isinstance(plist_data, dict):
+        parse_ioreg_nodes([plist_data], raw_stats)
+
+    res = []
+    for vendor in ["Intel", "AMD"]:
+        st = raw_stats[vendor]
+        if not st["detected"]:
+            continue
+            
+        name_str = GPU_INFO[vendor]["name"]
+        total_mb = GPU_INFO[vendor]["vram_mb"]
+        
+        if vendor == "Intel":
+            # Intel 核显优先使用 inUseSystemMemoryBytes 或 gartUsedBytes，若无再看 vramUsedBytes
+            used_bytes = st["sys_used"] or st["gart_used"] or st["vram_used"]
+            # 如果核显汇报的字节数意外超过最大动态配额(例如 GART 映射虚高)，以其余有效项为准
+            if total_mb > 0 and (used_bytes / (1024.0 * 1024.0)) > total_mb * 2:
+                candidates = [b for b in (st["sys_used"], st["gart_used"], st["vram_used"]) if 0 < b <= total_mb * 1024 * 1024]
+                used_bytes = candidates[0] if candidates else 0
+        else:
+            # AMD 独显优先使用独立显存 vramUsedBytes
+            used_bytes = st["vram_used"] or st["sys_used"] or st["gart_used"]
+            
+        used_mb = used_bytes / (1024.0 * 1024.0)
+        util = st["util"]
+        
+        # 判定 AMD 独显是否处于休眠断电状态
+        if vendor == "AMD" and util is None and used_mb < 35:
+            if total_mb > 0:
+                vram_info = f"驻留 \033[1;30m{format_size(used_mb)} / {format_size(total_mb)}\033[0m"
+            else:
+                vram_info = f"驻留 \033[1;30m{format_size(used_mb)}\033[0m"
+            res.append(f"{name_str} 状态: \033[1;30m已休眠 (节能断电)\033[0m | 显存: {vram_info}")
+            continue
+
+        util_str = f"{util}%" if util is not None else "0%"
+        
+        if total_mb > 0:
+            percent = min((used_mb / total_mb) * 100.0, 100.0)
+            vram_str = f"\033[1;33m{format_size(used_mb)}\033[0m / \033[1;33m{format_size(total_mb)}\033[0m (\033[1;36m{percent:.1f}%\033[0m)"
+        else:
+            vram_str = f"已用 \033[1;33m{format_size(used_mb)}\033[0m"
+            
+        res.append(f"{name_str} 负载: \033[1;32m{util_str:<4}\033[0m | 显存: {vram_str}")
+        
+    return "\n".join(res) if res else "当前无显卡硬件数据"
+
+def extract_temps(smc_dict):
+    cpu_temps, gpu_temps = [], []
+    cpu_die_str, gpu_die_str = "", ""
+    
+    for k, v in smc_dict.items():
+        if not isinstance(v, (int, float)): continue
+        kl = k.lower()
+        
+        if kl == "cpu_die":
+            cpu_die_str = f"{k}: \033[1;31m{v:.1f}°C\033[0m"
+            continue
+        if kl == "gpu_die":
+            gpu_die_str = f"{k}: \033[1;31m{v:.1f}°C\033[0m"
+            continue
+            
+        if "cpu" in kl:
+            cpu_temps.append(f"{k}: {v:.1f}°C")
+        elif "gpu" in kl:
+            gpu_temps.append(f"{k}: {v:.1f}°C")
+            
+    cpu_temps.sort()
+    gpu_temps.sort()
+    
+    if cpu_die_str: cpu_temps.insert(0, cpu_die_str)
+    if gpu_die_str: gpu_temps.insert(0, gpu_die_str)
+        
+    return cpu_temps, gpu_temps
+
+try:
+    while True:
+        chunk = proc.stdout.read(4096)
+        if not chunk: break
+        buf.extend(chunk)
+        
+        while b"\x00" in buf:
+            raw, _, rest = buf.partition(b"\x00")
+            buf = bytearray(rest)
+            if not raw.strip(): continue
+            data = plistlib.loads(raw)
+
+            gpu = data.get("gpu", {})
+            active = gpu.get("hw_active_residency", 0.0)
+
+            smc = data.get("smc", {})
+            cpu_temps, gpu_temps = extract_temps(smc)
+            cpu_str = ", ".join(cpu_temps) if cpu_temps else "N/A"
+            gpu_str = ", ".join(gpu_temps) if gpu_temps else "N/A"
+            
+            dual_gpu_status = get_dual_gpu_hardware_status()
+
+            tasks = [t for t in data.get("tasks", []) if t.get("gputime_ms_per_s", 0) > 0.01]
+            tasks.sort(key=lambda x: x.get("gputime_ms_per_s", 0), reverse=True)
+
+            sys.stdout.write("\033[H\033[J")
+            print(f"=== 🍎 Mac GPU Monitor | 系统整体图形活跃度: {active:.1f}% ===")
+            print(f"CPU Temp: {cpu_str}")
+            print(f"GPU Temp: {gpu_str}")
+            print("-" * 65)
+            print(dual_gpu_status)
+            print("-" * 65)
+            print(f"{'PID':<8} {'GPU ms/s':<12} {'% GPU':<10} {'PROCESS'}")
+            
+            for t in tasks[:10]:
+                ms = t.get("gputime_ms_per_s", 0.0)
+                print(f"{t.get('pid', 0):<8} {ms:<12.2f} {ms / 10.0:<10.1f} {t.get('name', '')}")
+            sys.stdout.flush()
+except KeyboardInterrupt:
+    proc.terminate()
